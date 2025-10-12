@@ -1,0 +1,22 @@
+package com.example.demo.models.dto;
+
+import com.example.demo.models.CandidateEmployee;
+import com.example.demo.models.CertificationTypes;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class CertificationDto {
+    private Integer id;
+    private String name;
+    private String description;
+    private String addtional_file;
+    private String available_start_date;
+    private String available_end_date;
+    private CandidateEmployee candidateEmployee;
+    private CertificationTypes certificationTypes;
+}
