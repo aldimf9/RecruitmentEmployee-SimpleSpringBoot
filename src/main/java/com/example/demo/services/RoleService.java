@@ -27,13 +27,17 @@ public class RoleService {
     }
 
     public boolean save(RoleDto roleDto){
-        Role role = new Role();
-        role.setId(roleDto.getId());
-        role.setName(roleDto.getName());
+        try {
+            Role role = new Role();
+            role.setId(roleDto.getId());
+            role.setName(roleDto.getName());
 
-        roleRepository.save(role);
+            roleRepository.save(role);
 
-        return roleRepository.findById(roleDto.getId()).isPresent();
+            return roleRepository.findById(roleDto.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean remove(Integer id){

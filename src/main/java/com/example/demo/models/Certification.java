@@ -32,6 +32,6 @@ public class Certification {
     private CandidateEmployee candidateEmployee;
 
     @ManyToOne
-    @JoinColumn(name="certification",referencedColumnName="id")
+    @JoinColumn(name="certification_type",referencedColumnName="id")
     private CertificationTypes certificationTypes;
 }

@@ -7,15 +7,23 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Certification;
 import com.example.demo.models.dto.CertificationDto;
+import com.example.demo.repositories.CandidateEmployeRepository;
 import com.example.demo.repositories.CertificationRepository;
+import com.example.demo.repositories.CertificationTypesRepository;
 
 @Service
 public class CertificationService {
     private final CertificationRepository certificationRepository;
+    private final CertificationTypesRepository certificationTypesRepository;
+    private final CandidateEmployeRepository candidateEmployeRepository;
 
     @Autowired
-    public CertificationService(CertificationRepository certificationRepository){
+    public CertificationService(CertificationRepository certificationRepository,
+    CertificationTypesRepository certificationTypesRepository,
+    CandidateEmployeRepository candidateEmployeRepository){
         this.certificationRepository = certificationRepository;
+        this.certificationTypesRepository = certificationTypesRepository;
+        this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
     public List<Certification> getAll(){
@@ -28,18 +36,22 @@ public class CertificationService {
 
     public boolean save(CertificationDto certificationDto){
         Certification certification = new Certification();
-        certification.setId(certificationDto.getId());
-        certification.setName(certificationDto.getName());
-        certification.setDescription(certificationDto.getDescription());
-        certification.setAdditionaly_file(certificationDto.getAddtional_file());
-        certification.setAvailable_start_date(certificationDto.getAvailable_start_date());
-        certification.setAvailable_end_date(certificationDto.getAvailable_end_date());
-        certification.setCandidateEmployee(certificationDto.getCandidateEmployee());
-        certification.setCertificationTypes(certificationDto.getCertificationTypes());
+        try {
+            certification.setId(certificationDto.getId());
+            certification.setName(certificationDto.getName());
+            certification.setDescription(certificationDto.getDescription());
+            certification.setAdditionaly_file(certificationDto.getAddtional_file());
+            certification.setAvailable_start_date(certificationDto.getAvailable_start_date());
+            certification.setAvailable_end_date(certificationDto.getAvailable_end_date());
+            certification.setCandidateEmployee(candidateEmployeRepository.findById(certificationDto.getCandidateEmployee()).orElse(null));
+            certification.setCertificationTypes(certificationTypesRepository.findById(certificationDto.getCertificationType()).orElse(null));
 
-        certificationRepository.save(certification);
+            certificationRepository.save(certification);
 
-        return certificationRepository.findById(certificationDto.getId()).isPresent();
+            return certificationRepository.findById(certificationDto.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean remove(Integer id){

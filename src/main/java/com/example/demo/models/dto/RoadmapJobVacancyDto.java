@@ -15,6 +15,6 @@ public class RoadmapJobVacancyDto {
     private String action;
     private String feedback;
     private String submit_date;
-    private CandidateEmployee candidateEmployee;
-    private JobVacancy jobVacancy;
+    private Integer candidateEmployee;
+    private Integer jobVacancy;
 }

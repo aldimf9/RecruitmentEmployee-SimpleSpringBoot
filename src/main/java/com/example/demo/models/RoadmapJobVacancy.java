@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="roadmapJobVacancy")
+@Table(name="roadmap_job_vacancy")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

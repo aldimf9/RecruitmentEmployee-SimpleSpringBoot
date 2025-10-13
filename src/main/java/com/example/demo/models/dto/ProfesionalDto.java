@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +19,6 @@ public class ProfesionalDto {
     private String location;
     private String description;
     private String additionaly_file;
-    private CandidateEmployee candidateEmployee;
-    private ProfesionalTypes profesionalTypes;
+    private Integer candidateEmployee;
+    private Integer profesionalType;
 }

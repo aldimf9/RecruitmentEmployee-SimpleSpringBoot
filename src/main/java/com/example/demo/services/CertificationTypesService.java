@@ -27,13 +27,17 @@ public class CertificationTypesService {
     }
 
     public boolean save(CertificationTypesDto certificationTypesDto){
-        CertificationTypes certificationTypes = new CertificationTypes();
-        certificationTypes.setId(certificationTypesDto.getId());
-        certificationTypes.setName(certificationTypesDto.getName());
+        try {
+            CertificationTypes certificationTypes = new CertificationTypes();
+            certificationTypes.setId(certificationTypesDto.getId());
+            certificationTypes.setName(certificationTypesDto.getName());
 
-        certificationTypesRepository.save(certificationTypes);
+            certificationTypesRepository.save(certificationTypes);
 
-        return certificationTypesRepository.findById(certificationTypesDto.getId()).isPresent();
+            return certificationTypesRepository.findById(certificationTypesDto.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }   
     }
 
     public boolean remove(Integer id){

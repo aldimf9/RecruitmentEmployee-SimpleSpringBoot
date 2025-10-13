@@ -18,6 +18,6 @@ public class OrganizationDto {
     private String finish_date;
     private String location;
     private String additionaly_file;
-    private CandidateEmployee candidateEmployee;
-    private OrganizationTypes organizationTypes;
+    private Integer candidateEmployee;
+    private Integer organizationType;
 }

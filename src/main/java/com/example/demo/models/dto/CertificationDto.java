@@ -17,6 +17,6 @@ public class CertificationDto {
     private String addtional_file;
     private String available_start_date;
     private String available_end_date;
-    private CandidateEmployee candidateEmployee;
-    private CertificationTypes certificationTypes;
+    private Integer candidateEmployee;
+    private Integer certificationType;
 }

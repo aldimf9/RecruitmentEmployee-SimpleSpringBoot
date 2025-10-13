@@ -7,15 +7,23 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Profesional;
 import com.example.demo.models.dto.ProfesionalDto;
+import com.example.demo.repositories.CandidateEmployeRepository;
 import com.example.demo.repositories.ProfesionalRepository;
+import com.example.demo.repositories.ProfesionalTypesRepository;
 
 @Service
 public class ProfesionalService {
     private final ProfesionalRepository profesionalRepository;
+    private final ProfesionalTypesRepository profesionalTypesRepository;
+    private final CandidateEmployeRepository candidateEmployeRepository;
 
     @Autowired
-    public ProfesionalService(ProfesionalRepository profesionalRepository){
+    public ProfesionalService(ProfesionalRepository profesionalRepository,
+    ProfesionalTypesRepository profesionalTypesRepository,
+    CandidateEmployeRepository candidateEmployeRepository){
         this.profesionalRepository = profesionalRepository;
+        this.profesionalTypesRepository = profesionalTypesRepository;
+        this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
     public List<Profesional> getAll(){
@@ -27,20 +35,24 @@ public class ProfesionalService {
     }
 
     public boolean save(ProfesionalDto profesionalDto){
-        Profesional profesional = new Profesional();
-        profesional.setId(profesionalDto.getId());
-        profesional.setName(profesionalDto.getName());
-        profesional.setDescription(profesionalDto.getDescription());
-        profesional.setAdditionaly_file(profesionalDto.getAdditionaly_file());
-        profesional.setStart_date(profesionalDto.getStart_date());
-        profesional.setFinish_date(profesionalDto.getFinish_date());
-        profesional.setLocation(profesionalDto.getLocation());
-        profesional.setOrganizationTypes(profesionalDto.getOrganizationTypes());
-        profesional.setCandidateEmployee(profesionalDto.getCandidateEmployee());
+        try {
+            Profesional profesional = new Profesional();
+            profesional.setId(profesionalDto.getId());
+            profesional.setName(profesionalDto.getName());
+            profesional.setDescription(profesionalDto.getDescription());
+            profesional.setAdditionaly_file(profesionalDto.getAdditionaly_file());
+            profesional.setStart_date(profesionalDto.getStart_date());
+            profesional.setFinish_date(profesionalDto.getFinish_date());
+            profesional.setLocation(profesionalDto.getLocation());
+            profesional.setProfesionalTypes(profesionalTypesRepository.findById(profesionalDto.getProfesionalType()).orElse(null));
+            profesional.setCandidateEmployee(candidateEmployeRepository.findById(profesionalDto.getCandidateEmployee()).orElse(null));
 
-        profesionalRepository.save(profesional);
+            profesionalRepository.save(profesional);
 
-        return profesionalRepository.findById(profesionalDto.getId()).isPresent();
+            return profesionalRepository.findById(profesionalDto.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean remove(Integer id){

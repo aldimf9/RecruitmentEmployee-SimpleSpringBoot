@@ -35,6 +35,6 @@ public class Profesional {
     private CandidateEmployee candidateEmployee;
 
     @ManyToOne
-    @JoinColumn(name="profesional_types",referencedColumnName="id")
+    @JoinColumn(name="profesional_type",referencedColumnName="id")
     private ProfesionalTypes profesionalTypes;
 }

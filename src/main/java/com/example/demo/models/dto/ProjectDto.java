@@ -15,6 +15,6 @@ public class ProjectDto {
     private String name;
     private String description;
     private String additionaly_file;
-    private CandidateEmployee candidateEmployee;
-    private ProjectTypes projectTypes;
+    private Integer candidateEmployee;
+    private Integer projectType;
 }

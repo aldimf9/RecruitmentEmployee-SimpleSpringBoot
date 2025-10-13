@@ -25,15 +25,19 @@ public class JobVacancyService {
     }
 
     public boolean save(JobVacancyDto jobVacancyDto){
-        JobVacancy jobVacancy = new JobVacancy();
-        jobVacancy.setId(jobVacancyDto.getId());
-        jobVacancy.setName(jobVacancyDto.getName());
-        jobVacancy.setDescription(jobVacancyDto.getDescription());
-        jobVacancy.setStatus(jobVacancyDto.getStatus());
+        try {
+            JobVacancy jobVacancy = new JobVacancy();
+            jobVacancy.setId(jobVacancyDto.getId());
+            jobVacancy.setName(jobVacancyDto.getName());
+            jobVacancy.setDescription(jobVacancyDto.getDescription());
+            jobVacancy.setStatus(jobVacancyDto.getStatus());
 
-        jobVacancyRepository.save(jobVacancy);
+            jobVacancyRepository.save(jobVacancy);
 
-        return jobVacancyRepository.findById(jobVacancy.getId()).isPresent();
+            return jobVacancyRepository.findById(jobVacancy.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean remove(Integer id){

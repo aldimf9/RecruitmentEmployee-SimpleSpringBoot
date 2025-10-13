@@ -9,14 +9,17 @@ import com.example.demo.models.CandidateEmployee;
 import com.example.demo.models.dto.CandidateEmployeeDto;
 import com.example.demo.models.dto.CertificationDto;
 import com.example.demo.repositories.CandidateEmployeRepository;
+import com.example.demo.repositories.UserRepository;
 
 @Service
 public class CandidateEmployeeService {
     private final CandidateEmployeRepository candidateEmployeRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CandidateEmployeeService(CandidateEmployeRepository candidateEmployeRepository){
+    public CandidateEmployeeService(CandidateEmployeRepository candidateEmployeRepository, UserRepository userRepository){
         this.candidateEmployeRepository = candidateEmployeRepository;
+        this.userRepository = userRepository;
     }
 
     public List<CandidateEmployee> getAll(){
@@ -28,21 +31,25 @@ public class CandidateEmployeeService {
     }
 
     public boolean save(CandidateEmployeeDto candidateEmployeeDto){
-        CandidateEmployee candidateEmployee = new CandidateEmployee();
-        candidateEmployee.setId(candidateEmployeeDto.getId());
-        candidateEmployee.setFirstName(candidateEmployeeDto.getFirstName());
-        candidateEmployee.setLastName(candidateEmployeeDto.getLastName());
-        candidateEmployee.setAddress(candidateEmployeeDto.getAddress());
-        candidateEmployee.setPhoneNumber(candidateEmployeeDto.getPhoneNumber());
-        candidateEmployee.setBirth_date(candidateEmployeeDto.getBirth_date());
-        candidateEmployee.setCity_date(candidateEmployeeDto.getCity_date());
-        candidateEmployee.setCuriculumVitae(candidateEmployeeDto.getCuriculumVitae());
-        candidateEmployee.setPortofolio(candidateEmployeeDto.getPortofolio());
-        candidateEmployee.setUser(candidateEmployeeDto.getUser());
+        try {
+            CandidateEmployee candidateEmployee = new CandidateEmployee();
+            candidateEmployee.setId(candidateEmployeeDto.getId());
+            candidateEmployee.setFirstName(candidateEmployeeDto.getFirstName());
+            candidateEmployee.setLastName(candidateEmployeeDto.getLastName());
+            candidateEmployee.setAddress(candidateEmployeeDto.getAddress());
+            candidateEmployee.setPhoneNumber(candidateEmployeeDto.getPhoneNumber());
+            candidateEmployee.setBirth_date(candidateEmployeeDto.getBirth_date());
+            candidateEmployee.setCity_date(candidateEmployeeDto.getCity_date());
+            candidateEmployee.setCuriculumVitae(candidateEmployeeDto.getCuriculumVitae());
+            candidateEmployee.setPortofolio(candidateEmployeeDto.getPortofolio());
+            candidateEmployee.setUser(userRepository.findById(candidateEmployeeDto.getUser()).orElse(null));
 
-        candidateEmployeRepository.save(candidateEmployee);
+            candidateEmployeRepository.save(candidateEmployee);
 
-        return candidateEmployeRepository.findById(candidateEmployeeDto.getId()).isPresent();
+            return candidateEmployeRepository.findById(candidateEmployeeDto.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean remove(Integer id){

@@ -27,13 +27,17 @@ public class ProjectTypesService {
     }
 
     public boolean save(ProjectTypesDto projectTypesDto){
-        ProjectTypes projectTypes = new ProjectTypes();
-        projectTypes.setId(projectTypesDto.getId());
-        projectTypes.setName(projectTypesDto.getName());
+        try {
+            ProjectTypes projectTypes = new ProjectTypes();
+            projectTypes.setId(projectTypesDto.getId());
+            projectTypes.setName(projectTypesDto.getName());
 
-        projectTypesRepository.save(projectTypes);
+            projectTypesRepository.save(projectTypes);
 
-        return projectTypesRepository.findById(projectTypesDto.getId()).isPresent();
+            return projectTypesRepository.findById(projectTypesDto.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean remove(Integer id){

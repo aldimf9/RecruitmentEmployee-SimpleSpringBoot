@@ -7,15 +7,23 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Organization;
 import com.example.demo.models.dto.OrganizationDto;
+import com.example.demo.repositories.CandidateEmployeRepository;
 import com.example.demo.repositories.OrganizationRepository;
+import com.example.demo.repositories.OrganizationTypeRepository;
 
 @Service
 public class OrganizationService {
     private final OrganizationRepository organizationRepository;
+    private final OrganizationTypeRepository organizationTypeRepository;
+    private final CandidateEmployeRepository candidateEmployeRepository;
 
     @Autowired
-    public OrganizationService(OrganizationRepository organizationRepository){
+    public OrganizationService(OrganizationRepository organizationRepository,
+    OrganizationTypeRepository organizationTypeRepository,
+    final CandidateEmployeRepository candidateEmployeRepository){
         this.organizationRepository = organizationRepository;
+        this.organizationTypeRepository = organizationTypeRepository;
+        this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
     public List<Organization> getAll(){
@@ -27,20 +35,24 @@ public class OrganizationService {
     }
 
     public boolean save(OrganizationDto organizationDto){
-        Organization organization = new Organization();
-        organization.setId(organizationDto.getId());
-        organization.setName(organizationDto.getName());
-        organization.setDescription(organizationDto.getDescription());
-        organization.setAdditionaly_file(organizationDto.getAdditionaly_file());
-        organization.setStart_date(organizationDto.getStart_date());
-        organization.setFinish_date(organizationDto.getFinish_date());
-        organization.setLocation(organizationDto.getLocation());
-        organization.setOrganizationTypes(organizationDto.getOrganizationTypes());
-        organization.setCandidateEmployee(organizationDto.getCandidateEmployee());
+        try {
+            Organization organization = new Organization();
+            organization.setId(organizationDto.getId());
+            organization.setName(organizationDto.getName());
+            organization.setDescription(organizationDto.getDescription());
+            organization.setAdditionaly_file(organizationDto.getAdditionaly_file());
+            organization.setStart_date(organizationDto.getStart_date());
+            organization.setFinish_date(organizationDto.getFinish_date());
+            organization.setLocation(organizationDto.getLocation());
+            organization.setOrganizationTypes(organizationTypeRepository.findById(organizationDto.getOrganizationType()).orElse(null));
+            organization.setCandidateEmployee(candidateEmployeRepository.findById(organizationDto.getCandidateEmployee()).orElse(null));
 
-        organizationRepository.save(organization);
+            organizationRepository.save(organization);
 
-        return organizationRepository.findById(organizationDto.getId()).isPresent();
+            return organizationRepository.findById(organizationDto.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean remove(Integer id){

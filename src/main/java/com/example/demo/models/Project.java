@@ -30,6 +30,6 @@ public class Project {
     private CandidateEmployee candidateEmployee;
 
     @ManyToOne
-    @JoinColumn(name="project_types",referencedColumnName="id")
+    @JoinColumn(name="project_type",referencedColumnName="id")
     private ProjectTypes projectTypes;
 }

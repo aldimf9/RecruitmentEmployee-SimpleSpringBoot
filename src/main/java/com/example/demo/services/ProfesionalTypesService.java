@@ -27,13 +27,17 @@ public class ProfesionalTypesService {
     }
 
     public boolean save(ProfesionalTypesDto profesionalTypesDto){
-        ProfesionalTypes profesionalTypes = new ProfesionalTypes();
-        profesionalTypes.setId(profesionalTypesDto.getId());
-        profesionalTypes.setName(profesionalTypesDto.getName());
+        try {
+            ProfesionalTypes profesionalTypes = new ProfesionalTypes();
+            profesionalTypes.setId(profesionalTypesDto.getId());
+            profesionalTypes.setName(profesionalTypesDto.getName());
 
-        profesionalTypesRepository.save(profesionalTypes);
+            profesionalTypesRepository.save(profesionalTypes);
 
-        return profesionalTypesRepository.findById(profesionalTypesDto.getId()).isPresent();
+            return profesionalTypesRepository.findById(profesionalTypesDto.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean remove(Integer id){

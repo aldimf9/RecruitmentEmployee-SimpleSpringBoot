@@ -28,13 +28,17 @@ public class OrganizationTypesService {
     }
 
     public boolean save(OrganizationTypesDto organizationTypesDto){
-        OrganizationTypes organizationTypes = new OrganizationTypes();
-        organizationTypes.setId(organizationTypesDto.getId());
-        organizationTypes.setName(organizationTypesDto.getName());
+        try {
+            OrganizationTypes organizationTypes = new OrganizationTypes();
+            organizationTypes.setId(organizationTypesDto.getId());
+            organizationTypes.setName(organizationTypesDto.getName());
 
-        organizationTypeRepository.save(organizationTypes);
+            organizationTypeRepository.save(organizationTypes);
 
-        return organizationTypeRepository.findById(organizationTypesDto.getId()).isPresent();
+            return organizationTypeRepository.findById(organizationTypesDto.getId()).isPresent();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean remove(Integer id){

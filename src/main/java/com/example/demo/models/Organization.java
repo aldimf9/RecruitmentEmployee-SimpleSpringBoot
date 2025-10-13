@@ -33,6 +33,6 @@ public class Organization {
     private CandidateEmployee candidateEmployee;
 
     @ManyToOne
-    @JoinColumn(name="organization_types",referencedColumnName="id")
+    @JoinColumn(name="organization_type",referencedColumnName="id")
     private OrganizationTypes organizationTypes;
 }
