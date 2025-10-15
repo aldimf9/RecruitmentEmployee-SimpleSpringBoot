@@ -1,0 +1,31 @@
+<html>
+
+<body>
+    <a href="/user/form-insert">Build Account</a>
+    <table>
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Email</td>
+                <td>Address</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${user}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.candidateEmployee.firstName}"></td>
+                <td th:text="${user.candidateEmployee.lastName}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.role.name}"></td>
+                <td>
+                    <a th:href="@{'/user/update/' + ${user.id}}">Update</a>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</body>
+
+</html>

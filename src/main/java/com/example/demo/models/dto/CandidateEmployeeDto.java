@@ -19,5 +19,4 @@ public class CandidateEmployeeDto {
     private String city_date;
     private String curiculumVitae;
     private String portofolio;
-    private Integer user;
 }

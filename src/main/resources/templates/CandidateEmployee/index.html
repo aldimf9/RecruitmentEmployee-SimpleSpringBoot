@@ -1,0 +1,41 @@
+<html>
+
+<body>
+    <a href="/candidate-employee/form">INSERT NEW</a>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Birth Date</th>
+                <th>City Date</th>
+                <th>CV</th>
+                <th>Portfolio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="candidateEmployee : ${candidateEmployee}">
+                <td th:text="${candidateEmployee.id}"></td>
+                <td th:text="${candidateEmployee.firstName}"></td>
+                <td th:text="${candidateEmployee.lastName}"></td>
+                <td th:text="${candidateEmployee.address}"></td>
+                <td th:text="${candidateEmployee.phoneNumber}"></td>
+                <td th:text="${candidateEmployee.birth_date}"></td>
+                <td th:text="${candidateEmployee.city_date}"></td>
+                <td th:text="${candidateEmployee.curiculumVitae}"></td>
+                 <td th:text="${candidateEmployee.portofolio}"></td>
+                <td>
+                <a th:href="@{'/candidate-employee/delete/' + ${candidateEmployee.id}}" onclick="return confirm('Yakin hapus data ini?')">
+                    Delete
+                </a>
+                <a th:href="@{'/candidate-employee/update/' + ${candidateEmployee.id}}">Update</a>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

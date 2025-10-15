@@ -1,0 +1,22 @@
+<html>
+    <body>
+        <a href="/role/form-insert">Add New</a>
+        <table>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>NAME</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each=" role : ${role}">
+                    <td th:text="${role.id}"></td>
+                    <td th:text="${role.name}"></td>
+                    <td>
+                        <a th:href="@{'/role/form-update/'+${role.id}}">Update</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

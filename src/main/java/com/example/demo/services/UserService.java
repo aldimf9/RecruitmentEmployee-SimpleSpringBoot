@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.models.CandidateEmployee;
 import com.example.demo.models.User;
 import com.example.demo.models.dto.UserDto;
 import com.example.demo.repositories.CandidateEmployeRepository;
@@ -14,13 +15,16 @@ import com.example.demo.repositories.UserRepository;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+    private final CandidateEmployeRepository candidateEmployeRepository;
 
     @Autowired
     public UserService(UserRepository userRepository,
-    RoleRepository roleRepository){
+    RoleRepository roleRepository,
+    CandidateEmployeRepository candidateEmployeRepository){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
     public List<User> getAll(){
@@ -33,22 +37,22 @@ public class UserService {
 
     public boolean save(UserDto userDto){
         try {
-             User user = new User();
-            user.setId(userDto.getId());
+            User existingUser = userRepository.findById(userDto.getId()).orElse(null);
+            User user = new User();
+            if (existingUser != null) {
+                user = existingUser;
+            } else {
+                 user.setCandidateEmployee(candidateEmployeRepository.findById(userDto.getId()).orElse(null)); 
+            }
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setRole(roleRepository.findById(userDto.getRole()).orElse(null));
-
+        
             userRepository.save(user);
-
-            return userRepository.findById(userDto.getId()).isPresent();
+        
+            return userRepository.findById(user.getId()).isPresent();
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public boolean remove(Integer id){
-        userRepository.deleteById(id);
-        return !userRepository.findById(id).isPresent();
     }
 }

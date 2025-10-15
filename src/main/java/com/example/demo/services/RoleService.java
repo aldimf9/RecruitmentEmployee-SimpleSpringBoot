@@ -29,12 +29,14 @@ public class RoleService {
     public boolean save(RoleDto roleDto){
         try {
             Role role = new Role();
-            role.setId(roleDto.getId());
+            if (roleDto.getId() != null) {
+                role.setId(roleDto.getId());    
+            }
             role.setName(roleDto.getName());
 
             roleRepository.save(role);
 
-            return roleRepository.findById(roleDto.getId()).isPresent();
+            return roleRepository.findById(role.getId()).isPresent();
         } catch (Exception e) {
             return false;
         }
