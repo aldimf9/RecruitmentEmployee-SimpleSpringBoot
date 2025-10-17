@@ -1,6 +1,6 @@
 <html>
     <body>
-        <form th:action="@{/role/insert}" th:object="${roleDto}" method="post">
+        <form th:action="@{/role/save}" th:object="${roleDto}" method="post">
             <div>
                 <label>Name</label>
                 <input th:field="*{name}" type="text">

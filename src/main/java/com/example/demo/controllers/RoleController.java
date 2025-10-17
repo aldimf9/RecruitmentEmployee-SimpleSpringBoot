@@ -29,36 +29,28 @@ public class RoleController {
         return "role/index";
     }
 
-    @GetMapping("form-insert")
-    public String formAddRole(Model model){
+    @GetMapping({"form","form/{id}"})
+    public String formAddRole(@PathVariable(required = false) Integer id,Model model){
+        if (id != null) {
+            Role role = roleService.getById(id);
+            RoleDto roleDto = new RoleDto(
+                role.getId(),
+                role.getName()
+            );
+            model.addAttribute("roleDto", roleDto);
+            return "role/update";
+        }
         model.addAttribute("roleDto", new RoleDto());
         return "role/insert";
     }
-    @PostMapping("insert")
-    public String addRole(RoleDto roleDto){
+    @PostMapping("save")
+    public String saveRole(RoleDto roleDto){
         boolean result = roleService.save(roleDto);
-        if (result) {
-            return "redirect:/role";
+        if (!result && roleDto.getId() != null) {
+            return "role/update";
+        } else if (!result) {
+            return "role/insert";
         }
-        return "role/insert";
-    }
-
-    @GetMapping("form-update/{id}")
-    public String formPutRole(@PathVariable("id") Integer id, Model model){
-        Role role = roleService.getById(id);
-        RoleDto roleDto = new RoleDto(
-            role.getId(),
-            role.getName()
-        );
-        model.addAttribute("roleDto", roleDto);
-        return "role/update";
-    }
-    @PostMapping("update")
-    public String putRole(RoleDto roleDto){
-        boolean result = roleService.save(roleDto);
-        if (result) {
-            return "redirect:/role";
-        }
-        return "role/update";
+        return "redirect:/role";
     }
 }

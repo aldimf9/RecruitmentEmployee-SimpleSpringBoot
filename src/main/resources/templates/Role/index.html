@@ -1,6 +1,6 @@
 <html>
     <body>
-        <a href="/role/form-insert">Add New</a>
+        <a href="/role/form">Add New</a>
         <table>
             <thead>
                 <tr>
@@ -13,7 +13,7 @@
                     <td th:text="${role.id}"></td>
                     <td th:text="${role.name}"></td>
                     <td>
-                        <a th:href="@{'/role/form-update/'+${role.id}}">Update</a>
+                        <a th:href="@{'/role/form/'+${role.id}}">Update</a>
                     </td>
                 </tr>
             </tbody>

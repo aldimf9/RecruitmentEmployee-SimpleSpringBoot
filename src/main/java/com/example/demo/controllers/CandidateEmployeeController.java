@@ -39,50 +39,40 @@ public class CandidateEmployeeController {
         return "candidateEmployee/index";
     }
 
-    @GetMapping("form")
-    public String form(Model model){
+    @GetMapping({"form","form/{id}"})
+    public String form(@PathVariable(required = false) Integer id ,Model model){
+        if (id != null) {
+            CandidateEmployee candidate = candidateEmployeeService.getById(id);
+            CandidateEmployeeDto candidateEmployeeDTO = new CandidateEmployeeDto(
+                candidate.getId(),
+                candidate.getFirstName(),
+                candidate.getLastName(),
+                candidate.getAddress(),
+                candidate.getPhoneNumber(),
+                candidate.getBirth_date(),
+                candidate.getCity_date(),
+                candidate.getCuriculumVitae(),
+                candidate.getPortofolio()
+            );
+    
+            model.addAttribute("candidateEmployeeDTO", candidateEmployeeDTO);
+            return "candidateEmployee/update";
+        }
         model.addAttribute("candidateEmployeeDTO", new CandidateEmployeeDto());
         return "candidateEmployee/form";
     }
-
-    @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        CandidateEmployee candidate = candidateEmployeeService.getById(id);
-        CandidateEmployeeDto candidateEmployeeDTO = new CandidateEmployeeDto(
-            candidate.getId(),
-            candidate.getFirstName(),
-            candidate.getLastName(),
-            candidate.getAddress(),
-            candidate.getPhoneNumber(),
-            candidate.getBirth_date(),
-            candidate.getCity_date(),
-            candidate.getCuriculumVitae(),
-            candidate.getPortofolio()
-        );
-    
-        model.addAttribute("candidateEmployeeDTO", candidateEmployeeDTO);
-        return "candidateEmployee/update";
-    }
-
     @PostMapping("save")
     public String save(CandidateEmployeeDto candidateEmployeeDTO){
         Boolean result = candidateEmployeeService.save(candidateEmployeeDTO);
-        if (result) {
-            return "redirect:/candidate-employee";
+        if (!result && candidateEmployeeDTO.getId() != null) {
+            return "candidateEmployee/update";
+        }else if (!result) {
+            return "candidateEmployee/form";
         }
-        return "candidateEmployee/form";
+        return "redirect:/candidate-employee";
     }
 
-    @PostMapping("update")
-    public String updateCandidateEmployee(CandidateEmployeeDto candidateEmployeeDTO) {
-        boolean result =  candidateEmployeeService.save(candidateEmployeeDTO);
-        if (result) {
-            return "redirect:/candidate-employee";
-        }
-        return "candidateEmployee/update";
-    }
-
-    @GetMapping("/delete/{id}")
+    @GetMapping("delete/{id}")
     public String delete(@PathVariable("id") Integer id) {
         Boolean result = candidateEmployeeService.remove(id);
         if (result) {

@@ -43,7 +43,6 @@ public class UserController {
         }
         return "user/form";
     }
-
     @PostMapping("save")
     public String save(UserDto userDto) {
         Boolean result = userService.save(userDto);
