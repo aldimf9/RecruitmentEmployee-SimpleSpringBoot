@@ -5,30 +5,30 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.models.ProjectTypes;
-import com.example.demo.models.dto.ProjectTypesDto;
-import com.example.demo.repositories.ProjectTypesRepository;
+import com.example.demo.models.ProjectType;
+import com.example.demo.models.dto.ProjectTypeDto;
+import com.example.demo.repositories.ProjectTypeRepository;
 
 @Service
-public class ProjectTypesService {
-    private final ProjectTypesRepository projectTypesRepository;
+public class ProjectTypeService {
+    private final ProjectTypeRepository projectTypesRepository;
 
     @Autowired
-    public ProjectTypesService(ProjectTypesRepository projectTypesRepository){
+    public ProjectTypeService(ProjectTypeRepository projectTypesRepository){
         this.projectTypesRepository = projectTypesRepository;
     }
 
-    public List<ProjectTypes> getAll(){
+    public List<ProjectType> getAll(){
         return projectTypesRepository.findAll();
     }
 
-    public ProjectTypes getById(Integer id){
+    public ProjectType getById(Integer id){
         return projectTypesRepository.findById(id).orElse(null);
     }
 
-    public boolean save(ProjectTypesDto projectTypesDto){
+    public boolean save(ProjectTypeDto projectTypesDto){
         try {
-            ProjectTypes projectTypes = new ProjectTypes();
+            ProjectType projectTypes = new ProjectType();
             projectTypes.setId(projectTypesDto.getId());
             projectTypes.setName(projectTypesDto.getName());
 

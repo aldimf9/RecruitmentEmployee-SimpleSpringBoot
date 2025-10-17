@@ -18,8 +18,8 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public List<Role> getAll(){
-        return roleRepository.findAll();
+    public List<RoleDto> getAll(){
+        return roleRepository.getAllData();
     }
 
     public Role getById(Integer id){

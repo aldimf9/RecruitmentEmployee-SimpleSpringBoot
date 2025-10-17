@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CertificationTypes {
+public class CertificationType{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;

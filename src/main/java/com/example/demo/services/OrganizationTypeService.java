@@ -5,31 +5,31 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.models.OrganizationTypes;
-import com.example.demo.models.dto.OrganizationTypesDto;
+import com.example.demo.models.OrganizationType;
+import com.example.demo.models.dto.OrganizationTypeDto;
 import com.example.demo.repositories.OrganizationTypeRepository;
 
 
 @Service
-public class OrganizationTypesService {
+public class OrganizationTypeService {
     private final OrganizationTypeRepository organizationTypeRepository;
 
     @Autowired
-    public OrganizationTypesService(OrganizationTypeRepository organizationTypeRepository){
+    public OrganizationTypeService(OrganizationTypeRepository organizationTypeRepository){
         this.organizationTypeRepository = organizationTypeRepository;
     }
 
-    public List<OrganizationTypes> getAll(){
+    public List<OrganizationType> getAll(){
         return organizationTypeRepository.findAll();
     }
 
-    public OrganizationTypes getById(Integer id){
+    public OrganizationType getById(Integer id){
         return organizationTypeRepository.findById(id).orElse(null);
     }
 
-    public boolean save(OrganizationTypesDto organizationTypesDto){
+    public boolean save(OrganizationTypeDto organizationTypesDto){
         try {
-            OrganizationTypes organizationTypes = new OrganizationTypes();
+            OrganizationType organizationTypes = new OrganizationType();
             organizationTypes.setId(organizationTypesDto.getId());
             organizationTypes.setName(organizationTypesDto.getName());
 

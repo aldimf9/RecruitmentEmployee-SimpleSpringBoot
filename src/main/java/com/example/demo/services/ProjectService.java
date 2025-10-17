@@ -7,20 +7,20 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Project;
 import com.example.demo.models.dto.ProjectDto;
-import com.example.demo.repositories.CandidateEmployeRepository;
+import com.example.demo.repositories.CandidateEmployeeRepository;
 import com.example.demo.repositories.ProjectRepository;
-import com.example.demo.repositories.ProjectTypesRepository;
+import com.example.demo.repositories.ProjectTypeRepository;
 
 @Service
 public class ProjectService {
     private final ProjectRepository projectRepository;
-    private final ProjectTypesRepository projectTypesRepository; 
-    private final CandidateEmployeRepository candidateEmployeRepository;
+    private final ProjectTypeRepository projectTypesRepository; 
+    private final CandidateEmployeeRepository candidateEmployeRepository;
 
     @Autowired
     public ProjectService(ProjectRepository projectRepository,
-    ProjectTypesRepository projectTypesRepository,
-   CandidateEmployeRepository candidateEmployeRepository){
+    ProjectTypeRepository projectTypesRepository,
+   CandidateEmployeeRepository candidateEmployeRepository){
         this.projectRepository = projectRepository;
         this.projectTypesRepository = projectTypesRepository;
         this.candidateEmployeRepository = candidateEmployeRepository;

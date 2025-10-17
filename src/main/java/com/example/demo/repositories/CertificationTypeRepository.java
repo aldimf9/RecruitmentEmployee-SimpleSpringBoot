@@ -3,9 +3,9 @@ package com.example.demo.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.models.CertificationTypes;
+import com.example.demo.models.CertificationType;
 
 @Repository
-public interface CertificationTypesRepository extends JpaRepository<CertificationTypes, Integer> {
+public interface CertificationTypeRepository extends JpaRepository<CertificationType, Integer> {
     
 }

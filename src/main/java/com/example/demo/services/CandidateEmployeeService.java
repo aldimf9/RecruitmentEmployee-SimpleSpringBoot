@@ -7,22 +7,19 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.CandidateEmployee;
 import com.example.demo.models.dto.CandidateEmployeeDto;
-import com.example.demo.repositories.CandidateEmployeRepository;
-import com.example.demo.repositories.UserRepository;
+import com.example.demo.repositories.CandidateEmployeeRepository;
 
 @Service
 public class CandidateEmployeeService {
-    private final CandidateEmployeRepository candidateEmployeRepository;
-    private final UserRepository userRepository;
+    private final CandidateEmployeeRepository candidateEmployeRepository;
 
     @Autowired
-    public CandidateEmployeeService(CandidateEmployeRepository candidateEmployeRepository,UserRepository userRepository){
+    public CandidateEmployeeService(CandidateEmployeeRepository candidateEmployeRepository){
         this.candidateEmployeRepository = candidateEmployeRepository;
-        this.userRepository = userRepository;
     }
 
-    public List<CandidateEmployee> getAll(){
-        return candidateEmployeRepository.findAll();
+    public List<CandidateEmployeeDto> getAll(){
+        return candidateEmployeRepository.getAllData();
     }
 
     public CandidateEmployee getById(Integer id){

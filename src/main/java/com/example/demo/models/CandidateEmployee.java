@@ -17,9 +17,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @Table(name = "candidate_employee")
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class CandidateEmployee {

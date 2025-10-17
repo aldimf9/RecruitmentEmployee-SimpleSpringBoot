@@ -1,7 +1,5 @@
 package com.example.demo.models;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,5 +34,5 @@ public class Profesional {
 
     @ManyToOne
     @JoinColumn(name="profesional_type",referencedColumnName="id")
-    private ProfesionalTypes profesionalTypes;
+    private ProfesionalType profesionalTypes;
 }

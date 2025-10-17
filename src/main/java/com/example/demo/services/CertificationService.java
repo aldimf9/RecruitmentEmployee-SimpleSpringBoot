@@ -7,20 +7,20 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Certification;
 import com.example.demo.models.dto.CertificationDto;
-import com.example.demo.repositories.CandidateEmployeRepository;
+import com.example.demo.repositories.CandidateEmployeeRepository;
 import com.example.demo.repositories.CertificationRepository;
-import com.example.demo.repositories.CertificationTypesRepository;
+import com.example.demo.repositories.CertificationTypeRepository;
 
 @Service
 public class CertificationService {
     private final CertificationRepository certificationRepository;
-    private final CertificationTypesRepository certificationTypesRepository;
-    private final CandidateEmployeRepository candidateEmployeRepository;
+    private final CertificationTypeRepository certificationTypesRepository;
+    private final CandidateEmployeeRepository candidateEmployeRepository;
 
     @Autowired
     public CertificationService(CertificationRepository certificationRepository,
-    CertificationTypesRepository certificationTypesRepository,
-    CandidateEmployeRepository candidateEmployeRepository){
+    CertificationTypeRepository certificationTypesRepository,
+    CandidateEmployeeRepository candidateEmployeRepository){
         this.certificationRepository = certificationRepository;
         this.certificationTypesRepository = certificationTypesRepository;
         this.candidateEmployeRepository = candidateEmployeRepository;

@@ -31,5 +31,5 @@ public class Project {
 
     @ManyToOne
     @JoinColumn(name="project_type",referencedColumnName="id")
-    private ProjectTypes projectTypes;
+    private ProjectType projectTypes;
 }

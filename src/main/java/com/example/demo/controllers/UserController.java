@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.models.User;
 import com.example.demo.models.dto.UserDto;
+import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;
 
 @Controller
@@ -17,51 +17,39 @@ import com.example.demo.services.UserService;
 public class UserController {
     
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(
+        UserService userService,
+        RoleService roleService){
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping
     public String index(Model model){
-        model.addAttribute("user", userService.getAll());
+        model.addAttribute("users", userService.getAllData());
         return "user/index";
     }
 
-    @GetMapping("form-insert")
-    public String formInsert(Model model){
-        model.addAttribute("userDto", new UserDto());
-        return "user/insert";
-    }
-    @PostMapping("insert")
-    public String insert(UserDto userDto){
-        Boolean result = userService.save(userDto);
-        if (result) {
-            return "redirect:/user";
+    @GetMapping(value={"form","form/{id}"})
+    public String showUpdateForm(@PathVariable(required=false) Integer id, Model model) {
+        model.addAttribute("roles", roleService.getAll());
+        if (id != null) {
+            model.addAttribute("userDto", userService.getWithId(id));
+        }else{
+            model.addAttribute("userDto", new UserDto());
         }
-        return "user/insert";
+        return "user/form";
     }
 
-    @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        User user = userService.getById(id);
-        UserDto userDto = new UserDto(
-            user.getCandidateEmployee().getId(),
-            user.getUsername(),
-            user.getPassword(),
-            user.getRole().getId()
-        );
-    
-        model.addAttribute("userDto", userDto);
-        return "user/update";
-    }
-    @PostMapping("update")
-    public String updateUser(UserDto userDto) {
+    @PostMapping("save")
+    public String save(UserDto userDto) {
         Boolean result = userService.save(userDto);
         if (result) {
             return "redirect:/user";
         }
-        return "redirect:/user/update/"+ userDto.getId();
+        return (userDto.getId() != null) ? "redirect:/user/form/"+ userDto.getId() : "user/form";
     }
 }

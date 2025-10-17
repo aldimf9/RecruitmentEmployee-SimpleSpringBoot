@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.RoadmapJobVacancy;
 import com.example.demo.models.dto.RoadmapJobVacancyDto;
-import com.example.demo.repositories.CandidateEmployeRepository;
+import com.example.demo.repositories.CandidateEmployeeRepository;
 import com.example.demo.repositories.JobVacancyRepository;
 import com.example.demo.repositories.RoadmapJobVacancyRepository;
 
@@ -14,11 +14,11 @@ import com.example.demo.repositories.RoadmapJobVacancyRepository;
 public class RoadmapJobVacancyService {
     private final RoadmapJobVacancyRepository roadmapJobVacancyRepository;
     private final JobVacancyRepository jobVacancyRepository;
-    private final CandidateEmployeRepository candidateEmployeRepository;
+    private final CandidateEmployeeRepository candidateEmployeRepository;
 
     public RoadmapJobVacancyService(RoadmapJobVacancyRepository roadmapJobVacancyRepository,
     JobVacancyRepository jobVacancyRepository,
-    CandidateEmployeRepository candidateEmployeRepository){
+    CandidateEmployeeRepository candidateEmployeRepository){
         this.roadmapJobVacancyRepository = roadmapJobVacancyRepository;
         this.jobVacancyRepository = jobVacancyRepository;
         this.candidateEmployeRepository = candidateEmployeRepository;

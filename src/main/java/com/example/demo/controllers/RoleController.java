@@ -25,7 +25,7 @@ public class RoleController {
 
     @GetMapping
     public String index(Model model){
-        model.addAttribute("role", roleService.getAll());
+        model.addAttribute("roles", roleService.getAll());
         return "role/index";
     }
 

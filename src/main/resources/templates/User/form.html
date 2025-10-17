@@ -1,6 +1,6 @@
 <html>
     <body>
-        <form th:action="@{/user/insert}" th:object="${userDto}" method="post">
+        <form th:action="@{/user/save}" th:object="${userDto}" method="post">
             <div>
                 <label>ID</label>
                 <input th:field="*{id}" type="text">
@@ -15,7 +15,10 @@
             </div>
             <div>
                 <label>Role</label>
-                <input th:field="*{role}" type="text">
+                <select th:field="*{role}">
+                    <option value="0">Choose Role</option>
+                    <option th:each="role : ${roles}" th:text="${role.name}" th:value="${role.id}"></option>
+                </select>
             </div>
             <button type="submit">Build</button>
         </form>

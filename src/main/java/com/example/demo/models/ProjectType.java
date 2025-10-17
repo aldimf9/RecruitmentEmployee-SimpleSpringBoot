@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -15,16 +16,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="profesional_types")
+@Table(name="project_types")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfesionalTypes {
+public class ProjectType {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
-    @OneToMany(mappedBy="profesionalTypes",fetch=FetchType.LAZY)
-    public List<Profesional> profesional;
+    @OneToMany(mappedBy="projectTypes",fetch=FetchType.LAZY)
+    public List<Project> project;
 }

@@ -5,30 +5,30 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.models.CertificationTypes;
-import com.example.demo.models.dto.CertificationTypesDto;
-import com.example.demo.repositories.CertificationTypesRepository;
+import com.example.demo.models.CertificationType;
+import com.example.demo.models.dto.CertificationTypeDto;
+import com.example.demo.repositories.CertificationTypeRepository;
 
 @Service
-public class CertificationTypesService {
-    private final CertificationTypesRepository certificationTypesRepository;
+public class CertificationTypeService {
+    private final CertificationTypeRepository certificationTypesRepository;
 
     @Autowired
-    public CertificationTypesService(CertificationTypesRepository certificationTypesRepository){
+    public CertificationTypeService(CertificationTypeRepository certificationTypesRepository){
         this.certificationTypesRepository = certificationTypesRepository;
     }
 
-    public List<CertificationTypes> getAll(){
+    public List<CertificationType> getAll(){
         return certificationTypesRepository.findAll();
     }
 
-    public CertificationTypes getById(Integer id){
+    public CertificationType getById(Integer id){
         return certificationTypesRepository.findById(id).orElse(null);
     }
 
-    public boolean save(CertificationTypesDto certificationTypesDto){
+    public boolean save(CertificationTypeDto certificationTypesDto){
         try {
-            CertificationTypes certificationTypes = new CertificationTypes();
+            CertificationType certificationTypes = new CertificationType();
             certificationTypes.setId(certificationTypesDto.getId());
             certificationTypes.setName(certificationTypesDto.getName());
 

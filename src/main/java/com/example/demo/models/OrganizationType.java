@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrganizationTypes {
+public class OrganizationType {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;

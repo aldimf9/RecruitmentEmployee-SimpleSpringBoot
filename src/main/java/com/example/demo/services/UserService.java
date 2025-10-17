@@ -5,10 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.models.CandidateEmployee;
 import com.example.demo.models.User;
 import com.example.demo.models.dto.UserDto;
-import com.example.demo.repositories.CandidateEmployeRepository;
+import com.example.demo.repositories.CandidateEmployeeRepository;
 import com.example.demo.repositories.RoleRepository;
 import com.example.demo.repositories.UserRepository;
 
@@ -16,34 +15,37 @@ import com.example.demo.repositories.UserRepository;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final CandidateEmployeRepository candidateEmployeRepository;
+    private final CandidateEmployeeRepository candidateEmployeRepository;
 
     @Autowired
     public UserService(UserRepository userRepository,
     RoleRepository roleRepository,
-    CandidateEmployeRepository candidateEmployeRepository){
+    CandidateEmployeeRepository candidateEmployeRepository){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
-    public List<User> getAll(){
-        return userRepository.findAll();
+    public List<UserDto> getAllData(){
+        return userRepository.getAllData();
     }
 
-    public User getById(Integer id){
-        return userRepository.findById(id).orElse(null);
+    public UserDto getWithId(Integer id){
+        return userRepository.getWithId(id);
     }
 
     public boolean save(UserDto userDto){
         try {
-            User existingUser = userRepository.findById(userDto.getId()).orElse(null);
             User user = new User();
-            if (existingUser != null) {
+            User existingUser = new User();
+            if (userDto.getId() != null) {
+                existingUser = userRepository.findById(userDto.getId()).orElse(null);
                 user = existingUser;
             } else {
-                 user.setCandidateEmployee(candidateEmployeRepository.findById(userDto.getId()).orElse(null)); 
+                
             }
+
+            user.setCandidateEmployee(candidateEmployeRepository.findById(userDto.getId()).orElse(null));
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setRole(roleRepository.findById(userDto.getRole()).orElse(null));

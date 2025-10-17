@@ -3,10 +3,10 @@ package com.example.demo.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.models.ProfesionalTypes;
+import com.example.demo.models.ProfesionalType;
 
 
 @Repository
-public interface ProfesionalTypesRepository extends JpaRepository<ProfesionalTypes, Integer> {
+public interface ProfesionalTypeRepository extends JpaRepository<ProfesionalType, Integer> {
     
 }

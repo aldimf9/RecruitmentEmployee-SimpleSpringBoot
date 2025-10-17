@@ -1,8 +1,5 @@
 package com.example.demo.models.dto;
 
-import com.example.demo.models.CandidateEmployee;
-import com.example.demo.models.ProfesionalTypes;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

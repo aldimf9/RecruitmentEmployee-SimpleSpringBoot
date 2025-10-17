@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Organization;
 import com.example.demo.models.dto.OrganizationDto;
-import com.example.demo.repositories.CandidateEmployeRepository;
+import com.example.demo.repositories.CandidateEmployeeRepository;
 import com.example.demo.repositories.OrganizationRepository;
 import com.example.demo.repositories.OrganizationTypeRepository;
 
@@ -15,12 +15,12 @@ import com.example.demo.repositories.OrganizationTypeRepository;
 public class OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final OrganizationTypeRepository organizationTypeRepository;
-    private final CandidateEmployeRepository candidateEmployeRepository;
+    private final CandidateEmployeeRepository candidateEmployeRepository;
 
     @Autowired
     public OrganizationService(OrganizationRepository organizationRepository,
     OrganizationTypeRepository organizationTypeRepository,
-    final CandidateEmployeRepository candidateEmployeRepository){
+    final CandidateEmployeeRepository candidateEmployeRepository){
         this.organizationRepository = organizationRepository;
         this.organizationTypeRepository = organizationTypeRepository;
         this.candidateEmployeRepository = candidateEmployeRepository;

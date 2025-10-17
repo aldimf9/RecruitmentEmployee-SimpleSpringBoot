@@ -5,30 +5,30 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.models.ProfesionalTypes;
-import com.example.demo.models.dto.ProfesionalTypesDto;
-import com.example.demo.repositories.ProfesionalTypesRepository;
+import com.example.demo.models.ProfesionalType;
+import com.example.demo.models.dto.ProfesionalTypeDto;
+import com.example.demo.repositories.ProfesionalTypeRepository;
 
 @Service
-public class ProfesionalTypesService {
-    private final ProfesionalTypesRepository profesionalTypesRepository;
+public class ProfesionalTypeService {
+    private final ProfesionalTypeRepository profesionalTypesRepository;
 
     @Autowired
-    public ProfesionalTypesService(ProfesionalTypesRepository profesionalTypesRepository){
+    public ProfesionalTypeService(ProfesionalTypeRepository profesionalTypesRepository){
         this.profesionalTypesRepository = profesionalTypesRepository;
     }
 
-    public List<ProfesionalTypes> getAll(){
+    public List<ProfesionalType> getAll(){
         return profesionalTypesRepository.findAll();
     }
 
-    public ProfesionalTypes getById(Integer id){
+    public ProfesionalType getById(Integer id){
         return profesionalTypesRepository.findById(id).orElse(null);
     }
 
-    public boolean save(ProfesionalTypesDto profesionalTypesDto){
+    public boolean save(ProfesionalTypeDto profesionalTypesDto){
         try {
-            ProfesionalTypes profesionalTypes = new ProfesionalTypes();
+            ProfesionalType profesionalTypes = new ProfesionalType();
             profesionalTypes.setId(profesionalTypesDto.getId());
             profesionalTypes.setName(profesionalTypesDto.getName());
 

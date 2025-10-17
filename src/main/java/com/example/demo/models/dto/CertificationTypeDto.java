@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfesionalTypesDto {
+public class CertificationTypeDto {
     private Integer id;
     private String name;
 }

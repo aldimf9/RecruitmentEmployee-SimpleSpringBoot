@@ -7,20 +7,20 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Profesional;
 import com.example.demo.models.dto.ProfesionalDto;
-import com.example.demo.repositories.CandidateEmployeRepository;
+import com.example.demo.repositories.CandidateEmployeeRepository;
 import com.example.demo.repositories.ProfesionalRepository;
-import com.example.demo.repositories.ProfesionalTypesRepository;
+import com.example.demo.repositories.ProfesionalTypeRepository;
 
 @Service
 public class ProfesionalService {
     private final ProfesionalRepository profesionalRepository;
-    private final ProfesionalTypesRepository profesionalTypesRepository;
-    private final CandidateEmployeRepository candidateEmployeRepository;
+    private final ProfesionalTypeRepository profesionalTypesRepository;
+    private final CandidateEmployeeRepository candidateEmployeRepository;
 
     @Autowired
     public ProfesionalService(ProfesionalRepository profesionalRepository,
-    ProfesionalTypesRepository profesionalTypesRepository,
-    CandidateEmployeRepository candidateEmployeRepository){
+    ProfesionalTypeRepository profesionalTypesRepository,
+    CandidateEmployeeRepository candidateEmployeRepository){
         this.profesionalRepository = profesionalRepository;
         this.profesionalTypesRepository = profesionalTypesRepository;
         this.candidateEmployeRepository = candidateEmployeRepository;
