@@ -14,22 +14,24 @@ public class ProfesionalTypeService {
     private final ProfesionalTypeRepository profesionalTypesRepository;
 
     @Autowired
-    public ProfesionalTypeService(ProfesionalTypeRepository profesionalTypesRepository){
+    public ProfesionalTypeService(ProfesionalTypeRepository profesionalTypesRepository) {
         this.profesionalTypesRepository = profesionalTypesRepository;
     }
 
-    public List<ProfesionalType> getAll(){
+    public List<ProfesionalType> getAll() {
         return profesionalTypesRepository.findAll();
     }
 
-    public ProfesionalType getById(Integer id){
+    public ProfesionalType getById(Integer id) {
         return profesionalTypesRepository.findById(id).orElse(null);
     }
 
-    public boolean save(ProfesionalTypeDto profesionalTypesDto){
+    public boolean save(ProfesionalTypeDto profesionalTypesDto) {
         try {
             ProfesionalType profesionalTypes = new ProfesionalType();
-            profesionalTypes.setId(profesionalTypesDto.getId());
+            if (profesionalTypesDto.getId() != null) {
+                profesionalTypes.setId(profesionalTypesDto.getId());
+            }
             profesionalTypes.setName(profesionalTypesDto.getName());
 
             profesionalTypesRepository.save(profesionalTypes);
@@ -40,7 +42,7 @@ public class ProfesionalTypeService {
         }
     }
 
-    public boolean remove(Integer id){
+    public boolean remove(Integer id) {
         profesionalTypesRepository.deleteById(id);
         return !profesionalTypesRepository.findById(id).isPresent();
     }

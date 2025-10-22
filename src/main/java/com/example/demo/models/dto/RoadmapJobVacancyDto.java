@@ -8,6 +8,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoadmapJobVacancyDto {
+
+    public RoadmapJobVacancyDto(Integer id, String action, String feedback, String submit_date) {
+        this.id = id;
+        this.action = action;
+        this.feedback = feedback;
+        this.submit_date = submit_date;
+    }
+
     private Integer id;
     private String action;
     private String feedback;

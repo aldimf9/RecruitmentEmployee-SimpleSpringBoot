@@ -3,25 +3,31 @@ package com.example.demo.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.models.JobVacancy;
 import com.example.demo.models.dto.JobVacancyDto;
 import com.example.demo.repositories.JobVacancyRepository;
 
+@Service
 public class JobVacancyService {
     private final JobVacancyRepository jobVacancyRepository;
-
+ 
     @Autowired
     public JobVacancyService(JobVacancyRepository jobVacancyRepository){
         this.jobVacancyRepository = jobVacancyRepository;
     }
 
-    public List<JobVacancy> getAll(){
-        return jobVacancyRepository.findAll();
+    public List<JobVacancyDto> getAll(){
+        return jobVacancyRepository.getAllData();
     }
 
-    public JobVacancy getById(Integer id){
-        return jobVacancyRepository.findById(id).orElse(null);
+    public List<JobVacancyDto> getAllForUser(){
+        return jobVacancyRepository.getAllDataForUser();
+    }
+
+    public JobVacancyDto getById(Integer id){
+        return jobVacancyRepository.getAllDataById(id);
     }
 
     public boolean save(JobVacancyDto jobVacancyDto){
@@ -38,10 +44,5 @@ public class JobVacancyService {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public boolean remove(Integer id){
-        jobVacancyRepository.deleteById(id);
-        return !jobVacancyRepository.findById(id).isPresent();
     }
 }

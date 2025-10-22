@@ -21,25 +21,24 @@ public class RestRoleController {
     private final RoleService roleService;
 
     @Autowired
-    public RestRoleController(RoleService roleService){
+    public RestRoleController(RoleService roleService) {
         this.roleService = roleService;
     }
 
     @GetMapping
-    public ResponseEntity<Object> getById(@RequestHeader(name = "token") String token, @RequestParam(name="id") Integer id){
-        if (!token.equals("")) {
-            if (!token.equals("abc")) {
-                return ResponseHandler.generateResponse("your token is not valid", HttpStatus.UNAUTHORIZED,"");
-            } else {
-                
-                return ResponseHandler.generateResponse("success", HttpStatus.OK,roleService.getById(id));
-            }
+    public ResponseEntity<Object> getById(@RequestHeader(name = "token") String token,
+            @RequestParam(name = "id") Integer id) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
-        return ResponseHandler.generateResponse("failed", HttpStatus.BAD_REQUEST,"");
+        return ResponseHandler.generateResponse("success", HttpStatus.OK, roleService.getById(id));
     }
-    
+
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody RoleDto roleDto){
+    public ResponseEntity<Object> save(@RequestHeader(name = "token") String token, @RequestBody RoleDto roleDto) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
+        }
         if (roleDto.getId() != null) {
             return ResponseHandler.generateResponse("success", HttpStatus.OK, roleService.save(roleDto));
         }

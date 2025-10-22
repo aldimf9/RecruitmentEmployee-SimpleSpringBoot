@@ -7,5 +7,4 @@ import com.example.demo.models.CertificationType;
 
 @Repository
 public interface CertificationTypeRepository extends JpaRepository<CertificationType, Integer> {
-    
 }

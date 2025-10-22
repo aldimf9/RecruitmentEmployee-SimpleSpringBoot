@@ -13,23 +13,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="project")
+@Table(name = "project")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Project {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String description;
     private String additionaly_file;
 
     @ManyToOne
-    @JoinColumn(name="candidate_employee",referencedColumnName="id")
+    @JoinColumn(name = "candidate_employee", referencedColumnName = "id")
     private CandidateEmployee candidateEmployee;
 
     @ManyToOne
-    @JoinColumn(name="project_type",referencedColumnName="id")
+    @JoinColumn(name = "project_type", referencedColumnName = "id")
     private ProjectType projectTypes;
 }

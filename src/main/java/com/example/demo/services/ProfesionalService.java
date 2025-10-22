@@ -19,22 +19,22 @@ public class ProfesionalService {
 
     @Autowired
     public ProfesionalService(ProfesionalRepository profesionalRepository,
-    ProfesionalTypeRepository profesionalTypesRepository,
-    CandidateEmployeeRepository candidateEmployeRepository){
+            ProfesionalTypeRepository profesionalTypesRepository,
+            CandidateEmployeeRepository candidateEmployeRepository) {
         this.profesionalRepository = profesionalRepository;
         this.profesionalTypesRepository = profesionalTypesRepository;
         this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
-    public List<Profesional> getAll(){
-        return profesionalRepository.findAll();
+    public List<ProfesionalDto> getAll(String username) {
+        return profesionalRepository.getDataByCandidateId(username);
     }
 
-    public Profesional getById(Integer id){
-        return profesionalRepository.findById(id).orElse(null);
+    public ProfesionalDto getById(Integer id) {
+        return profesionalRepository.getDataById(id);
     }
 
-    public boolean save(ProfesionalDto profesionalDto){
+    public boolean save(ProfesionalDto profesionalDto) {
         try {
             Profesional profesional = new Profesional();
             profesional.setId(profesionalDto.getId());
@@ -44,8 +44,10 @@ public class ProfesionalService {
             profesional.setStart_date(profesionalDto.getStart_date());
             profesional.setFinish_date(profesionalDto.getFinish_date());
             profesional.setLocation(profesionalDto.getLocation());
-            profesional.setProfesionalTypes(profesionalTypesRepository.findById(profesionalDto.getProfesionalType()).orElse(null));
-            profesional.setCandidateEmployee(candidateEmployeRepository.findById(profesionalDto.getCandidateEmployee()).orElse(null));
+            profesional.setProfesionalTypes(
+                    profesionalTypesRepository.findById(profesionalDto.getProfesionalTypeId()).orElse(null));
+            profesional.setCandidateEmployee(
+                    candidateEmployeRepository.findById(profesionalDto.getCandidateEmployee()).orElse(null));
 
             profesionalRepository.save(profesional);
 
@@ -55,7 +57,7 @@ public class ProfesionalService {
         }
     }
 
-    public boolean remove(Integer id){
+    public boolean remove(Integer id) {
         profesionalRepository.deleteById(id);
         return !profesionalRepository.findById(id).isPresent();
     }

@@ -29,7 +29,9 @@ public class CertificationTypeService {
     public boolean save(CertificationTypeDto certificationTypesDto){
         try {
             CertificationType certificationTypes = new CertificationType();
-            certificationTypes.setId(certificationTypesDto.getId());
+            if (certificationTypesDto.getId() != null) {
+                certificationTypes.setId(certificationTypesDto.getId());
+            }
             certificationTypes.setName(certificationTypesDto.getName());
 
             certificationTypesRepository.save(certificationTypes);

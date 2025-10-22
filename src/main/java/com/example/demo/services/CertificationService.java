@@ -19,32 +19,36 @@ public class CertificationService {
 
     @Autowired
     public CertificationService(CertificationRepository certificationRepository,
-    CertificationTypeRepository certificationTypesRepository,
-    CandidateEmployeeRepository candidateEmployeRepository){
+            CertificationTypeRepository certificationTypesRepository,
+            CandidateEmployeeRepository candidateEmployeRepository) {
         this.certificationRepository = certificationRepository;
         this.certificationTypesRepository = certificationTypesRepository;
         this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
-    public List<Certification> getAll(){
-        return certificationRepository.findAll();
+    public List<CertificationDto> getAll(String username) {
+        return certificationRepository.getDataByCandidateId(username);
     }
 
-    public Certification getById(Integer id){
-        return certificationRepository.findById(id).orElse(null);
+    public CertificationDto getById(Integer id) {
+        return certificationRepository.getDataById(id);
     }
 
-    public boolean save(CertificationDto certificationDto){
+    public boolean save(CertificationDto certificationDto) {
         Certification certification = new Certification();
         try {
-            certification.setId(certificationDto.getId());
+            if (certificationDto.getId() != null) {
+                certification.setId(certificationDto.getId());
+            }
             certification.setName(certificationDto.getName());
             certification.setDescription(certificationDto.getDescription());
             certification.setAdditionaly_file(certificationDto.getAddtional_file());
             certification.setAvailable_start_date(certificationDto.getAvailable_start_date());
             certification.setAvailable_end_date(certificationDto.getAvailable_end_date());
-            certification.setCandidateEmployee(candidateEmployeRepository.findById(certificationDto.getCandidateEmployee()).orElse(null));
-            certification.setCertificationTypes(certificationTypesRepository.findById(certificationDto.getCertificationType()).orElse(null));
+            certification.setCandidateEmployee(
+                    candidateEmployeRepository.findById(certificationDto.getCandidateEmployee()).orElse(null));
+            certification.setCertificationTypes(
+                    certificationTypesRepository.findById(certificationDto.getCertificationTypeId()).orElse(null));
 
             certificationRepository.save(certification);
 
@@ -54,7 +58,7 @@ public class CertificationService {
         }
     }
 
-    public boolean remove(Integer id){
+    public boolean remove(Integer id) {
         certificationRepository.deleteById(id);
         return !certificationRepository.findById(id).isPresent();
     }

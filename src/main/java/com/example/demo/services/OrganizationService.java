@@ -26,12 +26,12 @@ public class OrganizationService {
         this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
-    public List<Organization> getAll(){
-        return organizationRepository.findAll();
+    public List<OrganizationDto> getAll(String username){
+        return organizationRepository.getDataByCandidateId(username);
     }
 
-    public Organization getById(Integer id){
-        return organizationRepository.findById(id).orElse(null);
+    public OrganizationDto getById(Integer id){
+        return organizationRepository.getDataById(id);
     }
 
     public boolean save(OrganizationDto organizationDto){
@@ -44,7 +44,7 @@ public class OrganizationService {
             organization.setStart_date(organizationDto.getStart_date());
             organization.setFinish_date(organizationDto.getFinish_date());
             organization.setLocation(organizationDto.getLocation());
-            organization.setOrganizationTypes(organizationTypeRepository.findById(organizationDto.getOrganizationType()).orElse(null));
+            organization.setOrganizationTypes(organizationTypeRepository.findById(organizationDto.getOrganizationTypeId()).orElse(null));
             organization.setCandidateEmployee(candidateEmployeRepository.findById(organizationDto.getCandidateEmployee()).orElse(null));
 
             organizationRepository.save(organization);

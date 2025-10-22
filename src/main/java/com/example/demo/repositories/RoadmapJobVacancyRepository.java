@@ -1,11 +1,34 @@
 package com.example.demo.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.models.RoadmapJobVacancy;
+import com.example.demo.models.dto.JobVacancyDto;
+import com.example.demo.models.dto.RoadmapJobVacancyDto;
 
 @Repository
 public interface RoadmapJobVacancyRepository extends JpaRepository<RoadmapJobVacancy, Integer> {
-    
+    @Query("""
+            SELECT
+                new com.example.demo.models.dto.JobVacancyDto(job.id,job.name,job.description)
+            FROM
+                RoadmapJobVacancy rdmp JOIN rdmp.candidateEmployee candidate JOIN rdmp.jobVacancy job JOIN candidate.user user
+            WHERE
+                user.username = ?1 AND rdmp.action LIKE 'App%' AND job.status = 1
+            """)
+    public List<JobVacancyDto> getApplyByUser(String username);
+
+    @Query("""
+            SELECT
+                new com.example.demo.models.dto.RoadmapJobVacancyDto(rdmp.id,rdmp.action,rdmp.feedback,rdmp.submit_date)
+            FROM
+                RoadmapJobVacancy rdmp JOIN rdmp.candidateEmployee candidate JOIN rdmp.jobVacancy job JOIN candidate.user user
+            WHERE
+                user.username = ?1 AND job.id = ?2
+            """)
+    public List<RoadmapJobVacancyDto> getApplyDetailForUser(String username,Integer job_id);
 }

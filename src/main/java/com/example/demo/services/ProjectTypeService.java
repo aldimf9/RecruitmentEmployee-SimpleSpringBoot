@@ -29,7 +29,9 @@ public class ProjectTypeService {
     public boolean save(ProjectTypeDto projectTypesDto){
         try {
             ProjectType projectTypes = new ProjectType();
-            projectTypes.setId(projectTypesDto.getId());
+            if (projectTypesDto.getId() != null) {
+                projectTypes.setId(projectTypesDto.getId());
+            }
             projectTypes.setName(projectTypesDto.getName());
 
             projectTypesRepository.save(projectTypes);

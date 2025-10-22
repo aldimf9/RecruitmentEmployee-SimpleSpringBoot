@@ -19,4 +19,17 @@ public interface  CandidateEmployeeRepository extends JpaRepository<CandidateEmp
             CandidateEmployee c
     """)
     public List<CandidateEmployeeDto> getAllData();
+
+    @Query("""
+        SELECT
+            new com.example.demo.models.dto.CandidateEmployeeDto(c.id ,c.firstName ,c.lastName ,c.address ,c.phoneNumber ,c.birth_date ,c.city_date ,c.curiculumVitae ,c.portofolio)
+        FROM
+            CandidateEmployee c
+        WHERE
+            c.id = ?1
+    """)
+    public CandidateEmployeeDto getDataById(Integer id);
+
+    Boolean existsByFirstName(String firstName);
+    Boolean existsByLastName(String lastName);  
 }

@@ -22,8 +22,8 @@ public class CandidateEmployeeService {
         return candidateEmployeRepository.getAllData();
     }
 
-    public CandidateEmployee getById(Integer id){
-        return candidateEmployeRepository.findById(id).orElse(null);
+    public CandidateEmployeeDto getById(Integer id){
+        return candidateEmployeRepository.getDataById(id);
     }
 
     public boolean save(CandidateEmployeeDto candidateEmployeeDto){

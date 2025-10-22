@@ -8,8 +8,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobVacancyDto {
+
+    public JobVacancyDto(Integer id,String name,String description){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
     private Integer id;
     private String name;
     private String description;
     private Boolean status;
-}
+} 
