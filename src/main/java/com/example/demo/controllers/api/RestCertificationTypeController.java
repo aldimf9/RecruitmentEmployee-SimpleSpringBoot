@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,7 +52,7 @@ public class RestCertificationTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token, CertificationTypeDto certificationTypeDto) {
+    public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,@RequestBody CertificationTypeDto certificationTypeDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }

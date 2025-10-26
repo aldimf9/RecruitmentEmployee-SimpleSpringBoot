@@ -51,8 +51,8 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .antMatchers("/api/user/**").hasAuthority("Sales")
-                                .antMatchers("/api/role/**").hasAuthority("cashier")
+                                // .antMatchers("/api/user/**").hasAuthority("Sales")
+                                // .antMatchers("/api/role/**").hasAuthority("cashier")
                                 .antMatchers("/api/auth/**", "/api/test/all").permitAll()
                                 .anyRequest().authenticated()
                 );

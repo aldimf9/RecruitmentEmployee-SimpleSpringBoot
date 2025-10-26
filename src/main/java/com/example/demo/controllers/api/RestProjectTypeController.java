@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,16 +18,16 @@ import com.example.demo.services.ProjectTypeService;
 @RestController
 @RequestMapping("api/project-type")
 public class RestProjectTypeController {
-    
+
     private ProjectTypeService projectTypeService;
 
     @Autowired
-    public RestProjectTypeController(ProjectTypeService projectTypeService){
+    public RestProjectTypeController(ProjectTypeService projectTypeService) {
         this.projectTypeService = projectTypeService;
     }
 
     @GetMapping
-    public ResponseEntity<Object> getAllData(@RequestHeader(name = "token") String token){
+    public ResponseEntity<Object> getAllData(@RequestHeader(name = "token") String token) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
@@ -52,11 +53,12 @@ public class RestProjectTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token, ProjectTypeDto projectTypeDto) {
+    public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,
+            @RequestBody ProjectTypeDto projectTypeDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
-       if (projectTypeDto.getId() != null) {
+        if (projectTypeDto.getId() != null) {
             return ResponseHandler.generateResponse("success", HttpStatus.OK,
                     projectTypeService.save(projectTypeDto));
         }

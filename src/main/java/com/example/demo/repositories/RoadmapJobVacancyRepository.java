@@ -14,7 +14,7 @@ import com.example.demo.models.dto.RoadmapJobVacancyDto;
 public interface RoadmapJobVacancyRepository extends JpaRepository<RoadmapJobVacancy, Integer> {
     @Query("""
             SELECT
-                new com.example.demo.models.dto.JobVacancyDto(job.id,job.name,job.description)
+                new com.example.demo.models.dto.JobVacancyDto(job.id,job.name,job.description,rdmp.feedback)
             FROM
                 RoadmapJobVacancy rdmp JOIN rdmp.candidateEmployee candidate JOIN rdmp.jobVacancy job JOIN candidate.user user
             WHERE

@@ -26,6 +26,10 @@ public class CandidateEmployeeService {
         return candidateEmployeRepository.getDataById(id);
     }
 
+    public CandidateEmployeeDto getByName(String firstName ,String LastName){
+        return candidateEmployeRepository.getId(firstName, LastName);
+    }
+
     public boolean save(CandidateEmployeeDto candidateEmployeeDto){
         try {
             CandidateEmployee candidateEmployee = new CandidateEmployee();

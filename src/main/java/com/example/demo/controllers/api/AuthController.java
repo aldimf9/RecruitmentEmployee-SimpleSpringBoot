@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.User;
 import com.example.demo.models.dto.CandidateEmployeeDto;
+import com.example.demo.models.dto.RegisterDto;
 import com.example.demo.models.dto.UserDto;
 import com.example.demo.repositories.CandidateEmployeeRepository;
 import com.example.demo.repositories.RoleRepository;
@@ -51,11 +52,18 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String registerUser(@RequestBody UserDto userDto, CandidateEmployeeDto candidateEmployeeDto) {
-
-        if (userRepository.existsByUsername(userDto.getUsername())) {
-            return "Error: Username is already taken!";
-        }
+    public String registerUser(@RequestBody RegisterDto registerDto) {
+        CandidateEmployeeDto candidateEmployeeDto = new CandidateEmployeeDto(
+            null,
+            registerDto.getFirstName(),
+            registerDto.getLastName(),
+            registerDto.getAddress(),
+            registerDto.getPhoneNumber(),
+            registerDto.getBirthDate(),
+            registerDto.getCityDate(),
+            registerDto.getCuriculumVitae(),
+            registerDto.getPortofolio()
+        );
         
         CandidateEmployeeService candidateEmployeeService = new CandidateEmployeeService(candidateEmployeeRepository);
         if (candidateEmployeeRepository.existsByFirstName(candidateEmployeeDto.getFirstName())
@@ -64,6 +72,19 @@ public class AuthController {
         }
         // Create new candidate employee
         candidateEmployeeService.save(candidateEmployeeDto);
+
+        candidateEmployeeDto = candidateEmployeeService.getByName(candidateEmployeeDto.getFirstName(), candidateEmployeeDto.getLastName());
+
+        UserDto userDto = new UserDto(
+            candidateEmployeeDto.getId(),
+            registerDto.getUsername(),
+            registerDto.getPassword(),
+            registerDto.getRole()
+        );
+
+        if (userRepository.existsByUsername(userDto.getUsername())) {
+            return "Error: Username is already taken!";
+        }
 
         UserService userService = new UserService(userRepository, roleRepository, candidateEmployeeRepository);
         // Create new user's account

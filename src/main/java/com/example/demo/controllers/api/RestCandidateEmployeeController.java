@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,15 +44,11 @@ public class RestCandidateEmployeeController {
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestHeader(name = "token") String token,
-            CandidateEmployeeDto candidateEmployeeDto) {
+            @RequestBody CandidateEmployeeDto candidateEmployeeDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
-        if (candidateEmployeeDto.getId() != null) {
-            return ResponseHandler.generateResponse("success", HttpStatus.OK,
+        return ResponseHandler.generateResponse("modified success", HttpStatus.OK,
                     candidateEmployeeService.save(candidateEmployeeDto));
-        }
-        return ResponseHandler.generateResponse("success", HttpStatus.CREATED,
-                candidateEmployeeService.save(candidateEmployeeDto));
     }
 }

@@ -67,7 +67,6 @@ public class UserService implements UserDetailsService {
     public boolean save(UserDto userDto) {
         try {
             User user = new User();
-            user.setId(userDto.getId());
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setRole(roleRepository.findById(userDto.getRole()).orElse(null));

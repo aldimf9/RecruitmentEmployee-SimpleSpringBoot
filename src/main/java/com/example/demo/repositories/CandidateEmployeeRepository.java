@@ -30,6 +30,16 @@ public interface  CandidateEmployeeRepository extends JpaRepository<CandidateEmp
     """)
     public CandidateEmployeeDto getDataById(Integer id);
 
+    @Query("""
+        SELECT
+            new com.example.demo.models.dto.CandidateEmployeeDto(c.id ,c.firstName ,c.lastName ,c.address ,c.phoneNumber ,c.birth_date ,c.city_date ,c.curiculumVitae ,c.portofolio)
+        FROM
+            CandidateEmployee c
+        WHERE
+            c.firstName = ?1 AND c.lastName = ?2
+            """)
+    public CandidateEmployeeDto getId(String firstName,String lastName);
+
     Boolean existsByFirstName(String firstName);
     Boolean existsByLastName(String lastName);  
 }
