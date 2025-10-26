@@ -35,7 +35,7 @@ public class RestUserController {
     }
 
     @GetMapping("all")
-    public ResponseEntity<Object> getId(@RequestHeader(name = "token") String token) {
+    public ResponseEntity<Object> getAllUser(@RequestHeader(name = "token") String token) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, null);
         }

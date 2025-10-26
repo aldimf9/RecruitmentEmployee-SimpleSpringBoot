@@ -26,7 +26,15 @@ public class RestRoleController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getById(@RequestHeader(name = "token") String token,
+    public ResponseEntity<Object> getAllRole(@RequestHeader(name = "token") String token) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
+        }
+        return ResponseHandler.generateResponse("success", HttpStatus.OK, roleService.getAll());
+    }
+
+    @GetMapping("detail")
+    public ResponseEntity<Object> getRoleById(@RequestHeader(name = "token") String token,
             @RequestParam(name = "id") Integer id) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");

@@ -22,8 +22,8 @@ public class RoleService {
         return roleRepository.getAllData();
     }
 
-    public Role getById(Integer id){
-        return roleRepository.findById(id).orElse(null);
+    public RoleDto getById(Integer id){
+        return roleRepository.getRoleById(id);
     }
 
     public boolean save(RoleDto roleDto){

@@ -1,6 +1,8 @@
 package com.example.demo.controllers.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.handler.ResponseHandler;
 import com.example.demo.models.User;
 import com.example.demo.models.dto.CandidateEmployeeDto;
 import com.example.demo.models.dto.RegisterDto;
@@ -40,7 +43,7 @@ public class AuthController {
     JwtUtil jwtUtils;
 
     @PostMapping("/signin")
-    public String authenticateUser(@RequestBody User user) {
+    public ResponseEntity<Object> authenticateUser(@RequestBody User user) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         user.getUsername(),
@@ -48,11 +51,11 @@ public class AuthController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String role = userDetails.getAuthorities().stream().findFirst().map(GrantedAuthority::getAuthority)
                 .orElse(null);
-        return jwtUtils.generateToken(userDetails.getUsername(), role);
+        return ResponseHandler.generateResponse("success", HttpStatus.OK, jwtUtils.generateToken(userDetails.getUsername(), role));
     }
 
     @PostMapping("/signup")
-    public String registerUser(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<Object> registerUser(@RequestBody RegisterDto registerDto) {
         CandidateEmployeeDto candidateEmployeeDto = new CandidateEmployeeDto(
             null,
             registerDto.getFirstName(),
@@ -68,7 +71,7 @@ public class AuthController {
         CandidateEmployeeService candidateEmployeeService = new CandidateEmployeeService(candidateEmployeeRepository);
         if (candidateEmployeeRepository.existsByFirstName(candidateEmployeeDto.getFirstName())
                 && candidateEmployeeRepository.existsByLastName(candidateEmployeeDto.getLastName())) {
-            return "Error: Candidate Employee is already taken!";
+            return ResponseHandler.generateResponse("Error: Candidate Employee is already taken!", HttpStatus.NOT_ACCEPTABLE,null) ;
         }
         // Create new candidate employee
         candidateEmployeeService.save(candidateEmployeeDto);
@@ -79,11 +82,11 @@ public class AuthController {
             candidateEmployeeDto.getId(),
             registerDto.getUsername(),
             registerDto.getPassword(),
-            registerDto.getRole()
+            11
         );
 
         if (userRepository.existsByUsername(userDto.getUsername())) {
-            return "Error: Username is already taken!";
+            return ResponseHandler.generateResponse( "Error: Username is already taken!", HttpStatus.NOT_ACCEPTABLE,null) ;
         }
 
         UserService userService = new UserService(userRepository, roleRepository, candidateEmployeeRepository);
@@ -92,6 +95,6 @@ public class AuthController {
         userDto.setPassword(hashedPassword);
         userService.save(userDto);
 
-        return "User registered successfully!";
+        return ResponseHandler.generateResponse("User registered successfully!", HttpStatus.CREATED, null) ;
     }
 }

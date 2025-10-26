@@ -27,7 +27,7 @@ public class RestRoadmapJobVacancyController {
         this.roadmapJobVacancyService = roadmapJobVacancyService;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<Object> getApplyByUser(@RequestHeader(name = "token") String token,
             @AuthenticationPrincipal UserDetails userDetails) {
         if (!token.equals("RECRUBATM")) {

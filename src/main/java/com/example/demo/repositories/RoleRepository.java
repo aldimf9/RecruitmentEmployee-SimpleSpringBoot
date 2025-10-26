@@ -18,4 +18,14 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
             Role r
     """)
     public List<RoleDto> getAllData();
+
+    @Query("""
+        SELECT
+            new com.example.demo.models.dto.RoleDto(r.id,r.name)
+        FROM
+            Role r
+        WHERE
+            r.id = ?1
+    """)
+    public RoleDto getRoleById(Integer id);
 }

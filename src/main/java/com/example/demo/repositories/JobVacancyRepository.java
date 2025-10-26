@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.models.JobVacancy;
-import com.example.demo.models.dto.CandidateEmployeeDto;
 import com.example.demo.models.dto.JobVacancyDto;
 
 @Repository
