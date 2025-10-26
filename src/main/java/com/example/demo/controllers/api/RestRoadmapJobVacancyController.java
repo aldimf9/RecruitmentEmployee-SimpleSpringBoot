@@ -47,6 +47,16 @@ public class RestRoadmapJobVacancyController {
                 roadmapJobVacancyService.getApplyDetailById(userDetails.getUsername(), id));
     }
 
+    @GetMapping("detail-candidate")
+    public ResponseEntity<Object> getDetailAppCandidateRoadmap(@RequestHeader(name = "token") String token,
+            @RequestParam(name = "id") Integer id) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
+        }
+        return ResponseHandler.generateResponse("success", HttpStatus.OK,
+                roadmapJobVacancyService.getAllCandidateByIdJob(id));
+    }
+
     @PostMapping
     public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,
             @RequestBody RoadmapJobVacancyDto roadmapJobVacancyDto) {

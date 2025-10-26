@@ -27,7 +27,11 @@ public class JobVacancyService {
     }
 
     public JobVacancyDto getById(Integer id){
-        return jobVacancyRepository.getAllDataById(id);
+        return jobVacancyRepository.getDataById(id);
+    }
+
+    public JobVacancyDto getByIdForUser(Integer id){
+        return jobVacancyRepository.getDataByIdForUser(id);
     }
 
     public boolean save(JobVacancyDto jobVacancyDto){

@@ -25,7 +25,7 @@ public class RestJobVacancyController {
         this.jobVacancyService = jobVacancyService;
     }
 
-    @GetMapping("set")
+    @GetMapping("job")
     public ResponseEntity<Object> getAllData(@RequestHeader(name = "token") String token) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
@@ -42,12 +42,21 @@ public class RestJobVacancyController {
     }
 
     @GetMapping("detail")
-    public ResponseEntity<Object> getAllDataById(@RequestHeader(name = "token") String token,
+    public ResponseEntity<Object> getDataById(@RequestHeader(name = "token") String token,
             @RequestParam("id") Integer id) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
         return ResponseHandler.generateResponse("success", HttpStatus.OK, jobVacancyService.getById(id));
+    }
+
+    @GetMapping("job-detail")
+    public ResponseEntity<Object> getDataByIdForUser(@RequestHeader(name = "token") String token,
+            @RequestParam("id") Integer id) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
+        }
+        return ResponseHandler.generateResponse("success", HttpStatus.OK, jobVacancyService.getByIdForUser(id));
     }
 
     @PostMapping

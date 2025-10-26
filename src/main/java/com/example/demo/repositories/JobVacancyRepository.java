@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.models.JobVacancy;
+import com.example.demo.models.dto.CandidateEmployeeDto;
 import com.example.demo.models.dto.JobVacancyDto;
 
 @Repository
@@ -37,5 +38,15 @@ public interface JobVacancyRepository extends JpaRepository<JobVacancy, Integer>
             WHERE
                 jb.id = ?1
              """)
-    public JobVacancyDto getAllDataById(Integer Id);
+    public JobVacancyDto getDataById(Integer Id);
+
+    @Query("""
+             SELECT
+                new com.example.demo.models.dto.JobVacancyDto(jb.id,jb.name,jb.description,jb.status)
+            FROM
+                JobVacancy jb
+            WHERE
+                jb.id = ?1 AND jb.status = 1
+             """)
+    public JobVacancyDto getDataByIdForUser(Integer Id);
 }

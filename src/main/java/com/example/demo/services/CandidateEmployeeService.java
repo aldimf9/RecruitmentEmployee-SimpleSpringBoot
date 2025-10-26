@@ -52,9 +52,4 @@ public class CandidateEmployeeService {
             return false;
         }
     }
-
-    public boolean remove(Integer id){
-        candidateEmployeRepository.deleteById(id);
-        return !candidateEmployeRepository.findById(id).isPresent();
-    }
 }

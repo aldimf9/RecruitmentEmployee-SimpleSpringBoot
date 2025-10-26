@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.models.RoadmapJobVacancy;
+import com.example.demo.models.dto.CandidateEmployeeDto;
 import com.example.demo.models.dto.JobVacancyDto;
 import com.example.demo.models.dto.RoadmapJobVacancyDto;
 
@@ -31,4 +32,15 @@ public interface RoadmapJobVacancyRepository extends JpaRepository<RoadmapJobVac
                 user.username = ?1 AND job.id = ?2
             """)
     public List<RoadmapJobVacancyDto> getApplyDetailForUser(String username,Integer job_id);
+
+    
+    @Query("""
+            SELECT
+                new com.example.demo.models.dto.CandidateEmployeeDto(c.id ,c.firstName ,c.lastName ,c.address ,c.phoneNumber ,c.birth_date ,c.city_date ,c.curiculumVitae ,c.portofolio)
+            FROM
+                RoadmapJobVacancy rdmp JOIN rdmp.candidateEmployee c JOIN rdmp.jobVacancy job
+            WHERE
+                rdmp.action LIKE 'App%' AND job.id = ?1
+            """)
+    public List<CandidateEmployeeDto> getCandidateApplyById(Integer id);
 }

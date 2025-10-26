@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Approval;
 import com.example.demo.models.RoadmapJobVacancy;
+import com.example.demo.models.dto.CandidateEmployeeDto;
 import com.example.demo.models.dto.JobVacancyDto;
 import com.example.demo.models.dto.RoadmapJobVacancyDto;
 import com.example.demo.repositories.ApprovalRepository;
@@ -40,6 +41,10 @@ public class RoadmapJobVacancyService {
 
     public List<RoadmapJobVacancyDto> getApplyDetailById(String username, Integer job_id) {
         return roadmapJobVacancyRepository.getApplyDetailForUser(username, job_id);
+    }
+
+    public List<CandidateEmployeeDto> getAllCandidateByIdJob(Integer job_id) {
+        return roadmapJobVacancyRepository.getCandidateApplyById(job_id);
     }
 
     public boolean save(RoadmapJobVacancyDto roadmapJobVacancyDto) {
