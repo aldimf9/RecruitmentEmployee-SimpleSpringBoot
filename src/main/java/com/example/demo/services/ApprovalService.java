@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,10 @@ public class ApprovalService {
         this.roadmapJobVacancyRepository = roadmapJobVacancyRepository;
     }
 
+    public List<ApprovalDto> getAllData(){
+        return approvalRepository.getAllData();
+    }
+
     public boolean save(ApprovalDto approvalDto) {
         try {
             LocalDateTime now = LocalDateTime.now();
@@ -35,9 +40,9 @@ public class ApprovalService {
 
             Approval approval = approvalRepository.getById(approvalDto.getId());
             String feedback = "";
-            if (approvalDto.getStatus().equals("APPROVED")) {
+            if (approvalDto.getNote().equals("Approved")) {
                 feedback = "Best regards and please respond to our email";
-            } else if (approvalDto.getStatus().equals("REJECTED")) {
+            } else if (approvalDto.getNote().equals("Rejected")) {
                 feedback = "Thank you and keep fighting";
             } else {
                 feedback = "Waiting for Approval";
@@ -45,13 +50,13 @@ public class ApprovalService {
 
             approval.setApprovalDate(formatted);
             approval.setStatus(approvalDto.getStatus());
+            approval.setNote(approvalDto.getNote());
             approval.setUser(userRepository.getById(approvalDto.getUserId()));
             approval.setRoadmapJobVacancy(roadmapJobVacancyRepository.getById(approvalDto.getId()));
 
             approvalRepository.save(approval);
 
             RoadmapJobVacancy roadmapJobVacancy = roadmapJobVacancyRepository.getById(approvalDto.getId());
-            roadmapJobVacancy.setAction(approvalDto.getStatus());
             roadmapJobVacancy.setFeedback(feedback);
 
             roadmapJobVacancyRepository.save(roadmapJobVacancy);

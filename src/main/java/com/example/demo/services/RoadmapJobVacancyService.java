@@ -66,8 +66,8 @@ public class RoadmapJobVacancyService {
 
             Approval approval = new Approval(
                 null,
+                "Need Approval",
                 "Waiting for Approval",
-                null,
                 null,
                 formatted,
                 roadmapJobVacancy,

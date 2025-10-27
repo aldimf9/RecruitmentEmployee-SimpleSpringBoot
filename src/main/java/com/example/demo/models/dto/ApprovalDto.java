@@ -13,6 +13,11 @@ public class ApprovalDto {
         this.status = status;
         this.note = note;
     }
+    public ApprovalDto(Integer id,String status,String note){
+        this.id = id;
+        this.status = status;
+        this.note = note;
+    }
 
     private Integer id;
     private String status;

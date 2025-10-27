@@ -49,7 +49,7 @@ public class WebSecurityConfig {
                 .sessionManagement(
                         sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .antMatchers("/api/approval/**", "/api/role/**", "/api/project-type**",
+                        .antMatchers("/api/project-type**",
                                 "/api/professional-type**", "/api/oragnization-type/**", "/api/certification-type/**")
                         .hasAuthority("HR")
                         .antMatchers("/api/auth/**", "/api/test/all").permitAll()
@@ -64,7 +64,7 @@ public class WebSecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://127.0.0.1:3000");
+        config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);

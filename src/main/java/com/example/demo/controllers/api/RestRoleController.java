@@ -47,7 +47,7 @@ public class RestRoleController {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
-        if (roleDto.getId() != null) {
+        if (roleDto.getId() != 0) {
             return ResponseHandler.generateResponse("success", HttpStatus.OK, roleService.save(roleDto));
         }
         return ResponseHandler.generateResponse("success", HttpStatus.CREATED, roleService.save(roleDto));
