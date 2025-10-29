@@ -13,11 +13,11 @@ import com.example.demo.models.dto.ApprovalDto;
 public interface ApprovalRepository extends JpaRepository<Approval, Integer> {
     @Query("""
             SELECT
-                new com.example.demo.models.dto.ApprovalDto(a.id,a.status ,a.note)
+                new com.example.demo.models.dto.ApprovalDto(a.id,a.status,j.name,c.firstName,c.lastName)
             FROM
-                Approval a
+                Approval a JOIN a.roadmapJobVacancy rdmp JOIN rdmp.jobVacancy j JOIN rdmp.candidateEmployee c
             WHERE
-                a.status = 'Need Approval'
+                a.status = 'Need Approval' AND rdmp.action = ?1
                 """)
-    public List<ApprovalDto> getAllData();
+    public List<ApprovalDto> getAllData(String action);
 }

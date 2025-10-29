@@ -60,23 +60,23 @@ public class RoadmapJobVacancyService {
                     candidateEmployeRepository.findById(roadmapJobVacancyDto.getCandidateEmployee()).orElse(null));
             roadmapJobVacancy
                     .setJobVacancy(jobVacancyRepository.findById(roadmapJobVacancyDto.getJobVacancy()).orElse(null));
-            
-
             roadmapJobVacancyRepository.save(roadmapJobVacancy);
 
-            Approval approval = new Approval(
-                null,
-                "Need Approval",
-                "Waiting for Approval",
-                null,
-                formatted,
-                roadmapJobVacancy,
-                null
-            );
-            approvalRepository.save(approval);
-            
+            if (!roadmapJobVacancy.getAction().equals("Apply")) {
+                Approval approval = new Approval(
+                        roadmapJobVacancy.getId(),
+                        "Need Approval",
+                        null,
+                        null,
+                        formatted,
+                        roadmapJobVacancy,
+                        null);
+
+                approvalRepository.save(approval);
+            }
 
             return roadmapJobVacancyRepository.findById(roadmapJobVacancy.getId()).isPresent();
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;

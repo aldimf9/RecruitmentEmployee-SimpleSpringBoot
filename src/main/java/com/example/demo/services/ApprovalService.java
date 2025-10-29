@@ -28,8 +28,8 @@ public class ApprovalService {
         this.roadmapJobVacancyRepository = roadmapJobVacancyRepository;
     }
 
-    public List<ApprovalDto> getAllData(){
-        return approvalRepository.getAllData();
+    public List<ApprovalDto> getAllData(String action) {
+        return approvalRepository.getAllData(action);
     }
 
     public boolean save(ApprovalDto approvalDto) {
@@ -38,32 +38,77 @@ public class ApprovalService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formatted = now.format(formatter);
 
-            Approval approval = approvalRepository.getById(approvalDto.getId());
-            String feedback = "";
-            if (approvalDto.getNote().equals("Approved")) {
-                feedback = "Best regards and please respond to our email";
-            } else if (approvalDto.getNote().equals("Rejected")) {
-                feedback = "Thank you and keep fighting";
-            } else {
-                feedback = "Waiting for Approval";
+            // Get data roadmap
+            RoadmapJobVacancy getRoadmapJobVacancy = roadmapJobVacancyRepository.getById(approvalDto.getId());
+
+            // Get data approval
+            Approval getApproval = approvalRepository.getById(approvalDto.getId());
+
+            if (approvalDto.getStatus().equals("rejected")) {
+                getRoadmapJobVacancy.setFeedback(approvalDto.getNote());
+                // update roadmap
+                roadmapJobVacancyRepository.save(getRoadmapJobVacancy);
+
+                getApproval.setStatus("Done Approval");
+                getApproval.setApprovalDate(formatted);
+                getApproval.setNote(approvalDto.getStatus());
+                // update approval
+                approvalRepository.save(getApproval);
             }
 
-            approval.setApprovalDate(formatted);
-            approval.setStatus(approvalDto.getStatus());
-            approval.setNote(approvalDto.getNote());
-            approval.setUser(userRepository.getById(approvalDto.getUserId()));
-            approval.setRoadmapJobVacancy(roadmapJobVacancyRepository.getById(approvalDto.getId()));
+            // Get next action for roadmap
+            String nextStep = getRoadmapJobVacancy.getAction();
+            switch (nextStep) {
+                case "Screening CV":
+                    nextStep = "Interview HR";
+                    break;
+                case "Interview HR":
+                    nextStep = "Interview User";
+                    break;
+                case "Interview User":
+                    nextStep = "Offering";
+                    break;
+                case "Offering":
+                    nextStep = "On Boarding";
+                    break;
+                default:
+                    break;
+            }
 
-            approvalRepository.save(approval);
-
-            RoadmapJobVacancy roadmapJobVacancy = roadmapJobVacancyRepository.getById(approvalDto.getId());
-            roadmapJobVacancy.setFeedback(feedback);
+            // Create new roadmap
+            RoadmapJobVacancy roadmapJobVacancy = new RoadmapJobVacancy(
+                    0,
+                    nextStep,
+                    approvalDto.getNote(),
+                    formatted,
+                    getRoadmapJobVacancy.getCandidateEmployee(),
+                    getRoadmapJobVacancy.getJobVacancy());
 
             roadmapJobVacancyRepository.save(roadmapJobVacancy);
 
-           
+            if (!nextStep.equals("On Boarding")) {
+                // Create new Approval
+                Approval approval = new Approval(
+                        0,
+                        "Need Approval",
+                        null,
+                        null,
+                        formatted,
+                        roadmapJobVacancy,
+                        userRepository.getById(approvalDto.getUserId()));
 
-            return approvalRepository.existsById(approval.getId());
+                approvalRepository.save(approval);
+
+                // update roadmap.approval with new approval
+                roadmapJobVacancy.setApproval(approval);
+
+                roadmapJobVacancyRepository.save(roadmapJobVacancy);
+
+                return approvalRepository.existsById(approval.getId());
+            }
+
+            return roadmapJobVacancyRepository.existsById(roadmapJobVacancy.getId());
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;

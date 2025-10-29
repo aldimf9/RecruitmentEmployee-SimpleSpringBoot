@@ -26,12 +26,12 @@ public class ApprovalController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getData(@RequestHeader(name = "token") String token) {
+    public ResponseEntity<Object> getData(@RequestHeader(name = "token") String token,@RequestParam(name = "action") String action) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
         return ResponseHandler.generateResponse("success", HttpStatus.OK,
-                approvalService.getAllData());
+                approvalService.getAllData(action));
     }
 
     @PostMapping

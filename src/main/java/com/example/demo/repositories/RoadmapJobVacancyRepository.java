@@ -36,7 +36,7 @@ public interface RoadmapJobVacancyRepository extends JpaRepository<RoadmapJobVac
     
     @Query("""
             SELECT
-                new com.example.demo.models.dto.CandidateEmployeeDto(c.id ,c.firstName ,c.lastName ,c.address ,c.phoneNumber ,c.birth_date ,c.city_date ,c.curiculumVitae ,c.portofolio)
+                new com.example.demo.models.dto.CandidateEmployeeDto(rdmp.id ,c.firstName ,c.lastName ,c.address ,c.phoneNumber ,c.birth_date ,c.city_date ,c.curiculumVitae ,c.portofolio)
             FROM
                 RoadmapJobVacancy rdmp JOIN rdmp.candidateEmployee c JOIN rdmp.jobVacancy job
             WHERE

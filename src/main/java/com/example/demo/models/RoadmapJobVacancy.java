@@ -16,27 +16,38 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="roadmap_job_vacancy")
+@Table(name = "roadmap_job_vacancy")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoadmapJobVacancy {
+
+    public RoadmapJobVacancy(Integer id, String action, String feedback, String submit_date,
+            CandidateEmployee candidateEmployee, JobVacancy jobVacancy) {
+        this.id = id;
+        this.action = action;
+        this.feedback = feedback;
+        this.submit_date = submit_date;
+        this.candidateEmployee = candidateEmployee;
+        this.jobVacancy = jobVacancy;
+    }
+
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String action;
     private String feedback;
     private String submit_date;
 
     @ManyToOne
-    @JoinColumn(name="candidate_employee",referencedColumnName="id")
+    @JoinColumn(name = "candidate_employee", referencedColumnName = "id")
     private CandidateEmployee candidateEmployee;
 
     @ManyToOne
-    @JoinColumn(name="job_vacancy",referencedColumnName="id")
+    @JoinColumn(name = "job_vacancy", referencedColumnName = "id")
     private JobVacancy jobVacancy;
 
-    @OneToOne(mappedBy="roadmapJobVacancy",cascade=CascadeType.ALL)
+    @OneToOne(mappedBy = "roadmapJobVacancy", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Approval approval;
 }
