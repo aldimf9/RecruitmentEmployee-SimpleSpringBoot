@@ -18,8 +18,8 @@ public class ProjectTypeService {
         this.projectTypesRepository = projectTypesRepository;
     }
 
-    public List<ProjectType> getAll(){
-        return projectTypesRepository.findAll();
+    public List<ProjectTypeDto> getAll(){
+        return projectTypesRepository.getProjectTypeData();
     }
 
     public ProjectType getById(Integer id){

@@ -49,9 +49,9 @@ public class WebSecurityConfig {
                 .sessionManagement(
                         sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .antMatchers("/api/project-type**",
-                                "/api/professional-type**", "/api/oragnization-type/**", "/api/certification-type/**")
-                        .hasAuthority("HR")
+                        // .antMatchers("/api/project-type**",
+                        //         "/api/professional-type**", "/api/organization-type/**", "/api/certification-type/**")
+                        // .hasAuthority("HR")
                         .antMatchers("/api/auth/**", "/api/test/all").permitAll()
                         .anyRequest().authenticated());
         // Add the JWT Token filter before the UsernamePasswordAuthenticationFilter

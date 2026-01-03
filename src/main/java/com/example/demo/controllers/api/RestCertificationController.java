@@ -3,8 +3,7 @@ package com.example.demo.controllers.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,11 +29,12 @@ public class RestCertificationController {
 
     @GetMapping
     public ResponseEntity<Object> getAllDataByUser(@RequestHeader(name = "token") String token,
-           @AuthenticationPrincipal UserDetails userDetails) {
+            @RequestParam(name = "id") Integer id) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
-        return ResponseHandler.generateResponse("success", HttpStatus.OK, certificationService.getAll(userDetails.getUsername()));
+        return ResponseHandler.generateResponse("success", HttpStatus.OK,
+                certificationService.getCertificationDataByUserId(id));
     }
 
     @GetMapping("detail")
@@ -46,7 +46,7 @@ public class RestCertificationController {
         return ResponseHandler.generateResponse("success", HttpStatus.OK, certificationService.getById(id));
     }
 
-    @GetMapping("delete")
+    @DeleteMapping
     public ResponseEntity<Object> deleteObject(@RequestHeader(name = "token") String token,
             @RequestParam(name = "id") Integer id) {
         if (!token.equals("RECRUBATM")) {
@@ -57,15 +57,14 @@ public class RestCertificationController {
 
     @PostMapping
     public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,
-            @RequestParam(name = "user_id") Integer user_id,@RequestBody CertificationDto certificationDto) {
+            @RequestBody CertificationDto certificationDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
-        if (certificationDto.getId() != null) {
+        if (certificationDto.getId() != null) { 
             return ResponseHandler.generateResponse("success", HttpStatus.OK,
                     certificationService.save(certificationDto));
         }
-        certificationDto.setCandidateEmployee(user_id);
         return ResponseHandler.generateResponse("success", HttpStatus.CREATED,
                 certificationService.save(certificationDto));
     }

@@ -34,5 +34,5 @@ public class Organization {
 
     @ManyToOne
     @JoinColumn(name="organization_type",referencedColumnName="id")
-    private OrganizationType organizationTypes;
+    private OrganizationType organizationType;
 }

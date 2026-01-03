@@ -1,5 +1,8 @@
 package com.example.demo.models.dto;
 
+import com.example.demo.models.enums.ApprovalStatus;
+import com.example.demo.models.enums.PhaseRecruitment;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ApprovalDto {
 
-    public ApprovalDto(String status,String note){
+    public ApprovalDto(ApprovalStatus status,String note){
         this.status = status;
         this.note = note;
     }
-    public ApprovalDto(Integer id,String status,String job,String firstName,String lastName){
+    public ApprovalDto(Integer id,ApprovalStatus status,String job,String firstName,String lastName){
         this.id = id;
         this.status = status;
         this.job = job;
@@ -21,7 +24,7 @@ public class ApprovalDto {
         this.lastName = lastName;
     }
 
-    public ApprovalDto(Integer id,String status,String note,Integer userId){
+    public ApprovalDto(Integer id,ApprovalStatus status,String note,Integer userId){
         this.id = id;
         this.status = status;
         this.note = note;
@@ -29,10 +32,12 @@ public class ApprovalDto {
     }
 
     private Integer id;
-    private String status;
+    private ApprovalStatus status;
     private String note;
     private String job;
     private String firstName;
+    private PhaseRecruitment phase;
     private String lastName;
     private Integer userId;
+    private Integer rdmpId;
 }

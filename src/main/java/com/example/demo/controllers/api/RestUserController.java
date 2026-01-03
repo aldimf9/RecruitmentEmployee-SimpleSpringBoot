@@ -3,6 +3,7 @@ package com.example.demo.controllers.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,9 @@ public class RestUserController {
     public RestUserController(UserService userService) {
         this.userService = userService;
     }
+
+    @Autowired
+    PasswordEncoder encoder;
 
     @GetMapping
     public ResponseEntity<Object> getId(@RequestHeader(name = "token") String token,
@@ -47,6 +51,10 @@ public class RestUserController {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, null);
         }
+        // Hash Password
+        String hashedPassword = encoder.encode(userDto.getPassword());
+        userDto.setPassword(hashedPassword);
+
         return ResponseHandler.generateResponse("modified success", HttpStatus.OK, userService.save(userDto));
     }
 }

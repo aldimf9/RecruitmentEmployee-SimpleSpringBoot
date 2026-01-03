@@ -40,6 +40,9 @@ public class User {
 
     @OneToMany(mappedBy="user",fetch=FetchType.LAZY)
     public List<Approval> approval;
+    
+    @OneToMany(mappedBy="interviewer",fetch=FetchType.LAZY)
+    public List<InterviewSchedule> interviewSchedules;
 }
 
 /*

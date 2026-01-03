@@ -19,7 +19,7 @@ public interface RoadmapJobVacancyRepository extends JpaRepository<RoadmapJobVac
             FROM
                 RoadmapJobVacancy rdmp JOIN rdmp.candidateEmployee candidate JOIN rdmp.jobVacancy job JOIN candidate.user user
             WHERE
-                user.username = ?1 AND rdmp.action LIKE 'App%' AND job.status = 1
+                user.username = ?1 AND rdmp.action LIKE 'APP%' AND job.status = 1
             """)
     public List<JobVacancyDto> getApplyByUser(String username);
 
@@ -31,16 +31,25 @@ public interface RoadmapJobVacancyRepository extends JpaRepository<RoadmapJobVac
             WHERE
                 user.username = ?1 AND job.id = ?2
             """)
-    public List<RoadmapJobVacancyDto> getApplyDetailForUser(String username,Integer job_id);
+    public List<RoadmapJobVacancyDto> getApplyDetailForUser(String username, Integer job_id);
 
-    
     @Query("""
             SELECT
                 new com.example.demo.models.dto.CandidateEmployeeDto(rdmp.id ,c.firstName ,c.lastName ,c.address ,c.phoneNumber ,c.birth_date ,c.city_date ,c.curiculumVitae ,c.portofolio)
             FROM
                 RoadmapJobVacancy rdmp JOIN rdmp.candidateEmployee c JOIN rdmp.jobVacancy job
             WHERE
-                rdmp.action LIKE 'App%' AND job.id = ?1
+                rdmp.action LIKE 'APP%' AND job.id = ?1
             """)
     public List<CandidateEmployeeDto> getCandidateApplyById(Integer id);
+
+    @Query("""
+            SELECT
+                new com.example.demo.models.dto.RoadmapJobVacancyDto(rdmp.id,rdmp.action,c.firstName,c.lastName,j.name,u.username)
+            FROM
+                RoadmapJobVacancy rdmp JOIN rdmp.candidateEmployee c JOIN rdmp.jobVacancy j JOIN c.user u
+            WHERE
+                rdmp.action = 'APPLY'
+            """)
+    public List<RoadmapJobVacancyDto> getAllDataNewApply();
 }

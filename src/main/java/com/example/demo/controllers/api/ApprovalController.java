@@ -31,7 +31,7 @@ public class ApprovalController {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
         return ResponseHandler.generateResponse("success", HttpStatus.OK,
-                approvalService.getAllData(action));
+                approvalService.getAllDataByAction(action));
     }
 
     @PostMapping

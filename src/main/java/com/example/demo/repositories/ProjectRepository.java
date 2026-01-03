@@ -13,9 +13,9 @@ import com.example.demo.models.dto.ProjectDto;
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
     @Query("""
                 SELECT
-                    new com.example.demo.models.dto.ProjectDto(p.id ,p.name ,p.description ,p.additionaly_file, pt.name)
+                    new com.example.demo.models.dto.ProjectDto(p.id ,p.name ,p.description ,p.additionaly_file, pt.name, c.id,pt.id)
                 FROM
-                    Project p JOIN p.projectTypes pt
+                    Project p JOIN p.projectTypes pt JOIN p.candidateEmployee c
                 WHERE
                     p.id = ?1
 
@@ -24,11 +24,11 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
     @Query("""
                 SELECT
-                    new com.example.demo.models.dto.ProjectDto(p.id ,p.name ,p.description ,p.additionaly_file ,pt.name)
+                    new com.example.demo.models.dto.ProjectDto(p.id ,p.name ,p.description ,p.additionaly_file ,pt.name, c.id,pt.id)
                 FROM
-                     Project p JOIN p.projectTypes pt JOIN p.candidateEmployee candidate JOIN candidate.user u
+                     Project p JOIN p.projectTypes pt JOIN p.candidateEmployee c JOIN c.user u
                 WHERE
-                    u.username = ?1
+                    u.id = ?1
             """)
-    public List<ProjectDto> getDataByCandidateId(String username);
+    public List<ProjectDto> getDataByCandidateId(Integer id);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.handler.ResponseHandler;
 import com.example.demo.models.dto.CandidateEmployeeDto;
+import com.example.demo.models.dto.UserDto;
 import com.example.demo.services.CandidateEmployeeService;
 
 @RestController
@@ -42,6 +43,37 @@ public class RestCandidateEmployeeController {
         return ResponseHandler.generateResponse("success", HttpStatus.OK, candidateEmployeeService.getById(id));
     }
 
+    @PostMapping("application")
+    public ResponseEntity<Object> getApplicationCandidate(@RequestHeader(name = "token") String token,
+            @RequestBody UserDto userDto) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
+        }
+        CandidateEmployeeDto candidateEmployeeDto = candidateEmployeeService.getProfile(userDto.getUsername());
+        return ResponseHandler.generateResponse("success", HttpStatus.OK, candidateEmployeeService
+                .getApplicationJob(candidateEmployeeDto.getFirstName(), candidateEmployeeDto.getLastName()));
+    }
+
+    @PostMapping("name")
+    public ResponseEntity<Object> getNameCandidate(@RequestHeader(name = "token") String token,
+            @RequestBody UserDto userDto) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
+        }
+        return ResponseHandler.generateResponse("success", HttpStatus.OK,
+                candidateEmployeeService.getProfile(userDto.getUsername()));
+    }
+
+    @PostMapping("profile")
+    public ResponseEntity<Object> getProfile(@RequestHeader(name = "token") String token,
+            @RequestBody UserDto userDto) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
+        }
+        return ResponseHandler.generateResponse("success", HttpStatus.OK,
+                candidateEmployeeService.getProfile(userDto.getUsername()));
+    }
+
     @PostMapping
     public ResponseEntity<Object> save(@RequestHeader(name = "token") String token,
             @RequestBody CandidateEmployeeDto candidateEmployeeDto) {
@@ -49,6 +81,6 @@ public class RestCandidateEmployeeController {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
         return ResponseHandler.generateResponse("modified success", HttpStatus.OK,
-                    candidateEmployeeService.save(candidateEmployeeDto));
+                candidateEmployeeService.save(candidateEmployeeDto));
     }
 }

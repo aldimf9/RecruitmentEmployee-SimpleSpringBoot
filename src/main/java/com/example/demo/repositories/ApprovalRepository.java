@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.models.Approval;
 import com.example.demo.models.dto.ApprovalDto;
+import com.example.demo.models.enums.PhaseRecruitment;
 
 @Repository
 public interface ApprovalRepository extends JpaRepository<Approval, Integer> {
@@ -17,7 +18,17 @@ public interface ApprovalRepository extends JpaRepository<Approval, Integer> {
             FROM
                 Approval a JOIN a.roadmapJobVacancy rdmp JOIN rdmp.jobVacancy j JOIN rdmp.candidateEmployee c
             WHERE
-                a.status = 'Need Approval' AND rdmp.action = ?1
+                a.status = 'Waiting for Approval' AND rdmp.action = ?1
                 """)
-    public List<ApprovalDto> getAllData(String action);
+    public List<ApprovalDto> getAllData(PhaseRecruitment action);
+
+    @Query("""
+            SELECT 
+                a
+            FROM 
+                Approval a 
+            WHERE
+                a.roadmapJobVacancy.id = ?1
+            """)
+    public List<Approval> findByRoadmapId(Integer idRoadmap);
 }

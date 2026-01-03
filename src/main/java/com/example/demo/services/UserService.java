@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -34,7 +36,7 @@ public class UserService implements UserDetailsService {
         this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities(GrantedAuthority authority){
+    public Collection<? extends GrantedAuthority> getAuthorities(GrantedAuthority authority) {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(authority);
         return grantedAuthorities;
@@ -42,7 +44,10 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDto userDto = userRepository.findByUsername(username);
+
+        List<UserDto> listUserDto = new ArrayList<>(Arrays.asList(userRepository.findByUsername(username)));
+        UserDto userDto = listUserDto.get(0);
+        
         if (userDto == null) {
             throw new UsernameNotFoundException("User Not Found with username: " + username);
         }
@@ -66,7 +71,26 @@ public class UserService implements UserDetailsService {
 
     public boolean save(UserDto userDto) {
         try {
+
             User user = new User();
+
+            if (!userRepository.findById(userDto.getId()).isEmpty() && userDto.getId() != 0) {
+
+                user = userRepository.findById(userDto.getId()).orElse(null);
+
+                // Settings account or Setting Role
+                if (userDto.getUsername() != null && userDto.getPassword() != null && userDto.getId() != 0) {
+                    user.setUsername(userDto.getUsername());
+                    user.setPassword(userDto.getPassword());
+                    userRepository.save(user);
+                    return userRepository.findById(user.getId()).isPresent();
+                } else if (userDto.getRole() != null && userDto.getId() != 0) {
+                    user.setRole(roleRepository.findById(userDto.getRole()).orElse(null));
+                    userRepository.save(user);
+                    return userRepository.findById(user.getId()).isPresent();
+                }
+            }
+
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setRole(roleRepository.findById(userDto.getRole()).orElse(null));

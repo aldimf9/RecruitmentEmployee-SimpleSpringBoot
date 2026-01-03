@@ -13,9 +13,9 @@ import com.example.demo.models.dto.OrganizationDto;
 public interface OrganizationRepository extends JpaRepository<Organization, Integer> {
     @Query("""
                 SELECT
-                    new com.example.demo.models.dto.OrganizationDto(o.id ,o.name ,o.description ,o.start_date ,o.finish_date ,o.location ,o.additionaly_file,ot.name)
+                    new com.example.demo.models.dto.OrganizationDto(o.id ,o.name ,o.description ,o.start_date ,o.finish_date ,o.location ,o.additionaly_file,ot.name, ot.id, c.id)
                 FROM
-                    Organization o JOIN o.organizationTypes ot
+                    Organization o JOIN o.organizationType ot JOIN o.candidateEmployee c
                 WHERE
                     o.id = ?1
 
@@ -24,11 +24,11 @@ public interface OrganizationRepository extends JpaRepository<Organization, Inte
 
     @Query("""
                SELECT
-                    new com.example.demo.models.dto.OrganizationDto(o.id ,o.name ,o.description ,o.start_date ,o.finish_date ,o.location ,o.additionaly_file,ot.name)
+                    new com.example.demo.models.dto.OrganizationDto(o.id ,o.name ,o.description ,o.start_date ,o.finish_date ,o.location ,o.additionaly_file,ot.name, ot.id, c.id)
                 FROM
-                    Organization o JOIN o.organizationTypes ot JOIN o.candidateEmployee candidate JOIN candidate.user u
+                    Organization o JOIN o.organizationType ot JOIN o.candidateEmployee c JOIN c.user u
                 WHERE
-                    u.username = ?1
+                    u.id = ?1
             """)
-    public List<OrganizationDto> getDataByCandidateId(String username);
+    public List<OrganizationDto> getDataByCandidateId(Integer id);
 }

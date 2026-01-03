@@ -1,18 +1,22 @@
 package com.example.demo.services;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Approval;
 import com.example.demo.models.RoadmapJobVacancy;
+import com.example.demo.models.User;
 import com.example.demo.models.dto.ApprovalDto;
+import com.example.demo.models.enums.ApprovalStatus;
+import com.example.demo.models.enums.PhaseRecruitment;
 import com.example.demo.repositories.ApprovalRepository;
 import com.example.demo.repositories.RoadmapJobVacancyRepository;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.utils.DateFormater;
 
 @Service
 public class ApprovalService {
@@ -28,86 +32,77 @@ public class ApprovalService {
         this.roadmapJobVacancyRepository = roadmapJobVacancyRepository;
     }
 
-    public List<ApprovalDto> getAllData(String action) {
-        return approvalRepository.getAllData(action);
+    public List<ApprovalDto> getAllDataByAction(String action) {
+        return approvalRepository.getAllData(PhaseRecruitment.valueOf(action));
     }
 
+    @Transactional
     public boolean save(ApprovalDto approvalDto) {
         try {
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formatted = now.format(formatter);
+            DateFormater dateFormat = new DateFormater();
 
             // Get data roadmap
-            RoadmapJobVacancy getRoadmapJobVacancy = roadmapJobVacancyRepository.getById(approvalDto.getId());
+            RoadmapJobVacancy getRoadmapJobVacancy = roadmapJobVacancyRepository.getById(approvalDto.getRdmpId());
+
+            User getUser = userRepository.getById(approvalDto.getUserId());
 
             // Get data approval
             Approval getApproval = approvalRepository.getById(approvalDto.getId());
 
-            if (approvalDto.getStatus().equals("rejected")) {
-                getRoadmapJobVacancy.setFeedback(approvalDto.getNote());
+            // Adjust note to feedback roadmap
+            getRoadmapJobVacancy.setFeedback(getRoadmapJobVacancy.getFeedback() + approvalDto.getNote());
+
+            // Update Approval
+            getApproval.setStatus(approvalDto.getStatus());
+            getApproval.setApprovalDate(dateFormat.formater());
+            getApproval.setUser(getUser);
+            approvalRepository.save(getApproval);
+
+            if (approvalDto.getStatus().equals(ApprovalStatus.HAS_BEEN_REJECTED)) {
                 // update roadmap
                 roadmapJobVacancyRepository.save(getRoadmapJobVacancy);
 
-                getApproval.setStatus("Done Approval");
-                getApproval.setApprovalDate(formatted);
-                getApproval.setNote(approvalDto.getStatus());
-                // update approval
-                approvalRepository.save(getApproval);
+                return roadmapJobVacancyRepository.existsById(getApproval.getId());
             }
 
             // Get next action for roadmap
-            String nextStep = getRoadmapJobVacancy.getAction();
+            PhaseRecruitment nextStep = getRoadmapJobVacancy.getAction();
             switch (nextStep) {
-                case "Screening CV":
-                    nextStep = "Interview HR";
+                case APPLY:
+                    nextStep = PhaseRecruitment.INTERVIEW_HR;
                     break;
-                case "Interview HR":
-                    nextStep = "Interview User";
+                case INTERVIEW_HR:
+                    nextStep = PhaseRecruitment.INTERVIEW_USER;
                     break;
-                case "Interview User":
-                    nextStep = "Offering";
+                case INTERVIEW_USER:
+                    nextStep = PhaseRecruitment.PRE_OFFERING;
                     break;
-                case "Offering":
-                    nextStep = "On Boarding";
+                case PRE_OFFERING:
+                    nextStep = PhaseRecruitment.ON_BOARDING;
                     break;
                 default:
                     break;
             }
 
-            // Create new roadmap
-            RoadmapJobVacancy roadmapJobVacancy = new RoadmapJobVacancy(
-                    0,
-                    nextStep,
-                    approvalDto.getNote(),
-                    formatted,
-                    getRoadmapJobVacancy.getCandidateEmployee(),
-                    getRoadmapJobVacancy.getJobVacancy());
+            // Update Roadmap Job Vacancy
+            getRoadmapJobVacancy.setAction(nextStep);
+            roadmapJobVacancyRepository.save(getRoadmapJobVacancy);
 
-            roadmapJobVacancyRepository.save(roadmapJobVacancy);
-
-            if (!nextStep.equals("On Boarding")) {
+            if (!nextStep.equals(PhaseRecruitment.ON_BOARDING)) {
                 // Create new Approval
                 Approval approval = new Approval(
                         0,
-                        "Need Approval",
+                        ApprovalStatus.WAITING_FOR_APPROVAL,
                         null,
-                        null,
-                        formatted,
-                        roadmapJobVacancy,
-                        userRepository.getById(approvalDto.getUserId()));
+                        dateFormat.formater(),
+                        nextStep,
+                        getRoadmapJobVacancy,
+                        getUser);
 
                 approvalRepository.save(approval);
-
-                // update roadmap.approval with new approval
-                roadmapJobVacancy.setApproval(approval);
-
-                roadmapJobVacancyRepository.save(roadmapJobVacancy);
-
-                return approvalRepository.existsById(approval.getId());
             }
 
-            return roadmapJobVacancyRepository.existsById(roadmapJobVacancy.getId());
+            return roadmapJobVacancyRepository.existsById(getRoadmapJobVacancy.getId());
 
         } catch (Exception e) {
             e.printStackTrace();

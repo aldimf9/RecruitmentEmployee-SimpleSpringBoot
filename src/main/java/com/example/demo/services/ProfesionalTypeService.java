@@ -18,8 +18,8 @@ public class ProfesionalTypeService {
         this.profesionalTypesRepository = profesionalTypesRepository;
     }
 
-    public List<ProfesionalType> getAll() {
-        return profesionalTypesRepository.findAll();
+    public List<ProfesionalTypeDto> getAll() {
+        return profesionalTypesRepository.getProfesionalTypeData();
     }
 
     public ProfesionalType getById(Integer id) {

@@ -57,12 +57,22 @@ public class RestRoadmapJobVacancyController {
                 roadmapJobVacancyService.getAllCandidateByIdJob(id));
     }
 
+    @GetMapping("data")
+    public ResponseEntity<Object> getData(@RequestHeader(name = "token") String token) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
+        }
+        return ResponseHandler.generateResponse("success", HttpStatus.OK,
+                roadmapJobVacancyService.getAllDataByApply());
+    }
+
     @PostMapping
     public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,
             @RequestBody RoadmapJobVacancyDto roadmapJobVacancyDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
+        // System.out.println(roadmapJobVacancyDto);
         return ResponseHandler.generateResponse("success", HttpStatus.CREATED,
                 roadmapJobVacancyService.save(roadmapJobVacancyDto));
     }

@@ -26,8 +26,8 @@ public class ProjectService {
         this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
-    public List<ProjectDto> getAll(String username) {
-        return projectRepository.getDataByCandidateId(username);
+    public List<ProjectDto> getAll(Integer id) {
+        return projectRepository.getDataByCandidateId(id);
     }
 
     public ProjectDto getById(Integer id) {
@@ -37,13 +37,19 @@ public class ProjectService {
     public boolean save(ProjectDto projectDto) {
         try {
             Project project = new Project();
+
+            if (projectDto.getId() != 0) {
+                project = projectRepository.getById(projectDto.getId());
+            } else {
+                project.setCandidateEmployee(
+                        candidateEmployeRepository.findById(projectDto.getCandidateEmployee()).orElse(null));
+            }
+
             project.setId(projectDto.getId());
             project.setName(projectDto.getName());
             project.setDescription(projectDto.getDescription());
             project.setAdditionaly_file(projectDto.getAdditionaly_file());
             project.setProjectTypes(projectTypesRepository.findById(projectDto.getProjectTypeId()).orElse(null));
-            project.setCandidateEmployee(
-                    candidateEmployeRepository.findById(projectDto.getCandidateEmployee()).orElse(null));
 
             projectRepository.save(project);
 

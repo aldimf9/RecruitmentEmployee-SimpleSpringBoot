@@ -13,22 +13,22 @@ import com.example.demo.models.dto.CertificationDto;
 public interface CertificationRepository extends JpaRepository<Certification, Integer> {
     @Query("""
                 SELECT
-                    new com.example.demo.models.dto.CertificationDto(c.id ,c.name ,c.description ,c.additionaly_file ,c.available_start_date ,c.available_end_date ,ct.name)
+                    new com.example.demo.models.dto.CertificationDto(c.id ,c.name ,c.description ,c.additionaly_file ,c.available_start_date ,c.available_end_date ,ct.name , ct.id)
                 FROM
                     Certification c JOIN c.certificationTypes ct
                 WHERE
                     c.id = ?1
 
             """)
-    public CertificationDto getDataById(Integer id);
+    public CertificationDto getCertificationDataById(Integer id);
 
     @Query("""
                 SELECT
-                    new com.example.demo.models.dto.CertificationDto(c.id ,c.name ,c.description ,c.additionaly_file ,c.available_start_date ,c.available_end_date ,ct.name)
+                    new com.example.demo.models.dto.CertificationDto(c.id ,c.name ,c.description ,c.additionaly_file ,c.available_start_date ,c.available_end_date ,ct.name, ct.id)
                 FROM
                     Certification c JOIN c.certificationTypes ct JOIN c.candidateEmployee candidate JOIN candidate.user u
                 WHERE
-                    u.username = ?1
+                    u.id = ?1
             """)
-    public List<CertificationDto> getDataByCandidateId(String username);
+    public List<CertificationDto> getAllCertificationDataByCandidateId(Integer id);
 }

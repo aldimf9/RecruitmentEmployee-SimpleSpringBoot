@@ -26,27 +26,30 @@ public class CertificationService {
         this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
-    public List<CertificationDto> getAll(String username) {
-        return certificationRepository.getDataByCandidateId(username);
+    public CertificationDto getById(Integer id) {
+        return certificationRepository.getCertificationDataById(id);
     }
 
-    public CertificationDto getById(Integer id) {
-        return certificationRepository.getDataById(id);
+    public List<CertificationDto> getCertificationDataByUserId(Integer id) {
+        return certificationRepository.getAllCertificationDataByCandidateId(id);
     }
 
     public boolean save(CertificationDto certificationDto) {
-        Certification certification = new Certification();
         try {
-            if (certificationDto.getId() != null) {
-                certification.setId(certificationDto.getId());
+            Certification certification = new Certification();
+
+            // Update
+            if (certificationDto.getId() != 0) {
+                certification = certificationRepository.getById(certificationDto.getId());
+            } else {
+                certification.setCandidateEmployee(
+                        candidateEmployeRepository.findById(certificationDto.getCandidateEmployee()).orElse(null));
             }
             certification.setName(certificationDto.getName());
             certification.setDescription(certificationDto.getDescription());
             certification.setAdditionaly_file(certificationDto.getAddtional_file());
             certification.setAvailable_start_date(certificationDto.getAvailable_start_date());
             certification.setAvailable_end_date(certificationDto.getAvailable_end_date());
-            certification.setCandidateEmployee(
-                    candidateEmployeRepository.findById(certificationDto.getCandidateEmployee()).orElse(null));
             certification.setCertificationTypes(
                     certificationTypesRepository.findById(certificationDto.getCertificationTypeId()).orElse(null));
 

@@ -9,12 +9,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProjectDto {
 
-    public ProjectDto(Integer id, String name, String description, String additionaly_file, String projectType) {
+    public ProjectDto(Integer id, String name, String description, String additionaly_file, String projectType,
+            Integer candidateEmployee,
+            Integer projectTypeId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.additionaly_file = additionaly_file;
         this.projectType = projectType;
+        this.candidateEmployee = candidateEmployee;
+        this.projectTypeId = projectTypeId;
+    }
+
+    public ProjectDto(Integer id, String name, String description, String additionaly_file, Integer candidateEmployee,
+            Integer projectTypeId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.additionaly_file = additionaly_file;
+        this.candidateEmployee = candidateEmployee;
+        this.projectTypeId = projectTypeId;
     }
 
     private Integer id;

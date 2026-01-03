@@ -19,24 +19,32 @@ public class OrganizationService {
 
     @Autowired
     public OrganizationService(OrganizationRepository organizationRepository,
-    OrganizationTypeRepository organizationTypeRepository,
-    final CandidateEmployeeRepository candidateEmployeRepository){
+            OrganizationTypeRepository organizationTypeRepository,
+            final CandidateEmployeeRepository candidateEmployeRepository) {
         this.organizationRepository = organizationRepository;
         this.organizationTypeRepository = organizationTypeRepository;
         this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
-    public List<OrganizationDto> getAll(String username){
-        return organizationRepository.getDataByCandidateId(username);
+    public List<OrganizationDto> getAll(Integer id) {
+        return organizationRepository.getDataByCandidateId(id);
     }
 
-    public OrganizationDto getById(Integer id){
+    public OrganizationDto getById(Integer id) {
         return organizationRepository.getDataById(id);
     }
 
-    public boolean save(OrganizationDto organizationDto){
+    public boolean save(OrganizationDto organizationDto) {
         try {
             Organization organization = new Organization();
+
+            if (organizationDto.getId() != 0) {
+                organization = organizationRepository.getById(organizationDto.getId());
+            } else {
+                organization.setCandidateEmployee(
+                        candidateEmployeRepository.findById(organizationDto.getCandidateEmployee()).orElse(null));
+            }
+
             organization.setId(organizationDto.getId());
             organization.setName(organizationDto.getName());
             organization.setDescription(organizationDto.getDescription());
@@ -44,8 +52,8 @@ public class OrganizationService {
             organization.setStart_date(organizationDto.getStart_date());
             organization.setFinish_date(organizationDto.getFinish_date());
             organization.setLocation(organizationDto.getLocation());
-            organization.setOrganizationTypes(organizationTypeRepository.findById(organizationDto.getOrganizationTypeId()).orElse(null));
-            organization.setCandidateEmployee(candidateEmployeRepository.findById(organizationDto.getCandidateEmployee()).orElse(null));
+            organization.setOrganizationType(
+                    organizationTypeRepository.findById(organizationDto.getOrganizationTypeId()).orElse(null));
 
             organizationRepository.save(organization);
 
@@ -55,7 +63,7 @@ public class OrganizationService {
         }
     }
 
-    public boolean remove(Integer id){
+    public boolean remove(Integer id) {
         organizationRepository.deleteById(id);
         return !organizationRepository.findById(id).isPresent();
     }

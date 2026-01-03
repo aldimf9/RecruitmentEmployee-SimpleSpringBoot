@@ -25,6 +25,6 @@ public class OrganizationType {
     private Integer id;
     private String name;
 
-    @OneToMany(mappedBy="organizationTypes",fetch=FetchType.LAZY)
+    @OneToMany(mappedBy="organizationType",fetch=FetchType.LAZY)
     public List<Organization> organization;
 }

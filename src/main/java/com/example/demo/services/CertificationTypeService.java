@@ -18,8 +18,8 @@ public class CertificationTypeService {
         this.certificationTypesRepository = certificationTypesRepository;
     }
 
-    public List<CertificationType> getAll(){
-        return certificationTypesRepository.findAll();
+    public List<CertificationTypeDto> getAll(){
+        return certificationTypesRepository.getCertificationType();
     }
 
     public CertificationType getById(Integer id){

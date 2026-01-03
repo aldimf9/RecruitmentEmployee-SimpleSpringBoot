@@ -26,8 +26,8 @@ public class ProfesionalService {
         this.candidateEmployeRepository = candidateEmployeRepository;
     }
 
-    public List<ProfesionalDto> getAll(String username) {
-        return profesionalRepository.getDataByCandidateId(username);
+    public List<ProfesionalDto> getAll(Integer id) {
+        return profesionalRepository.getDataByCandidateId(id);
     }
 
     public ProfesionalDto getById(Integer id) {
@@ -37,6 +37,14 @@ public class ProfesionalService {
     public boolean save(ProfesionalDto profesionalDto) {
         try {
             Profesional profesional = new Profesional();
+
+            if (profesionalDto.getId() != 0) {
+                profesional = profesionalRepository.getById(profesionalDto.getId());
+            } else {
+                profesional.setCandidateEmployee(
+                        candidateEmployeRepository.findById(profesionalDto.getCandidateEmployee()).orElse(null));
+            }
+
             profesional.setId(profesionalDto.getId());
             profesional.setName(profesionalDto.getName());
             profesional.setDescription(profesionalDto.getDescription());
@@ -46,9 +54,6 @@ public class ProfesionalService {
             profesional.setLocation(profesionalDto.getLocation());
             profesional.setProfesionalTypes(
                     profesionalTypesRepository.findById(profesionalDto.getProfesionalTypeId()).orElse(null));
-            profesional.setCandidateEmployee(
-                    candidateEmployeRepository.findById(profesionalDto.getCandidateEmployee()).orElse(null));
-
             profesionalRepository.save(profesional);
 
             return profesionalRepository.findById(profesionalDto.getId()).isPresent();

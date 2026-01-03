@@ -18,8 +18,8 @@ public class OrganizationTypeService {
         this.organizationTypeRepository = organizationTypeRepository;
     }
 
-    public List<OrganizationType> getAll() {
-        return organizationTypeRepository.findAll();
+    public List<OrganizationTypeDto> getAll() {
+        return organizationTypeRepository.getOrganizationTypeData();
     }
 
     public OrganizationType getById(Integer id) {

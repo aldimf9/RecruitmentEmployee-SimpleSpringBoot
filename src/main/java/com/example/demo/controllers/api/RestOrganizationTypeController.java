@@ -16,7 +16,7 @@ import com.example.demo.models.dto.OrganizationTypeDto;
 import com.example.demo.services.OrganizationTypeService;
 
 @RestController
-@RequestMapping("api/oragnization-type")
+@RequestMapping("api/organization-type")
 public class RestOrganizationTypeController {
     
     private OrganizationTypeService organizationTypeService;

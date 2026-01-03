@@ -3,8 +3,7 @@ package com.example.demo.controllers.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,17 +22,17 @@ public class RestProfesionalController {
     private ProfesionalService profesionalService;
 
     @Autowired
-    public RestProfesionalController(ProfesionalService profesionalService){
+    public RestProfesionalController(ProfesionalService profesionalService) {
         this.profesionalService = profesionalService;
     }
 
     @GetMapping
     public ResponseEntity<Object> getAllDataByUser(@RequestHeader(name = "token") String token,
-           @AuthenticationPrincipal UserDetails userDetails) {
+            @RequestParam(name = "id") Integer id) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
-        return ResponseHandler.generateResponse("success", HttpStatus.OK, profesionalService.getAll(userDetails.getUsername()));
+        return ResponseHandler.generateResponse("success", HttpStatus.OK, profesionalService.getAll(id));
     }
 
     @GetMapping("detail")
@@ -45,7 +44,7 @@ public class RestProfesionalController {
         return ResponseHandler.generateResponse("success", HttpStatus.OK, profesionalService.getById(id));
     }
 
-    @GetMapping("delete")
+    @DeleteMapping
     public ResponseEntity<Object> deleteObject(@RequestHeader(name = "token") String token,
             @RequestParam(name = "id") Integer id) {
         if (!token.equals("RECRUBATM")) {
@@ -56,7 +55,7 @@ public class RestProfesionalController {
 
     @PostMapping
     public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,
-            @RequestParam(name = "user_id") Integer user_id,@RequestBody ProfesionalDto profesionalDto) {
+            @RequestBody ProfesionalDto profesionalDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
@@ -64,7 +63,6 @@ public class RestProfesionalController {
             return ResponseHandler.generateResponse("success", HttpStatus.OK,
                     profesionalService.save(profesionalDto));
         }
-        profesionalDto.setCandidateEmployee(user_id);
         return ResponseHandler.generateResponse("success", HttpStatus.CREATED,
                 profesionalService.save(profesionalDto));
     }
