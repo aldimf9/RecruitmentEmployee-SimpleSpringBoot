@@ -53,7 +53,7 @@ public class RestOrganizationTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,OrganizationTypeDto organizationTypeDto) {
+    public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,@RequestBody OrganizationTypeDto organizationTypeDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }

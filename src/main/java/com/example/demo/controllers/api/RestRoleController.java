@@ -43,7 +43,7 @@ public class RestRoleController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestHeader(name = "token") String token,RoleDto roleDto) {
+    public ResponseEntity<Object> save(@RequestHeader(name = "token") String token,@RequestBody RoleDto roleDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }

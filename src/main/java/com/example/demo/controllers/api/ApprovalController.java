@@ -36,7 +36,7 @@ public class ApprovalController {
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestHeader(name = "token") String token, @RequestParam Integer id,
-         ApprovalDto approvalDto) {
+        @RequestBody ApprovalDto approvalDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }

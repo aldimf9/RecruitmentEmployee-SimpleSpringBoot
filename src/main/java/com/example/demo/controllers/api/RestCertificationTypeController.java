@@ -52,7 +52,7 @@ public class RestCertificationTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,CertificationTypeDto certificationTypeDto) {
+    public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,@RequestBody CertificationTypeDto certificationTypeDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }

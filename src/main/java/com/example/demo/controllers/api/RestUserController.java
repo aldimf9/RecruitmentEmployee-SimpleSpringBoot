@@ -47,7 +47,7 @@ public class RestUserController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestHeader(name = "token") String token,UserDto userDto) {
+    public ResponseEntity<Object> save(@RequestHeader(name = "token") String token,@RequestBody UserDto userDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, null);
         }

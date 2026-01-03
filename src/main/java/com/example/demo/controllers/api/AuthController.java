@@ -47,7 +47,7 @@ public class AuthController {
         JwtUtil jwtUtils;
 
         @PostMapping("/signin")
-        public ResponseEntity<Object> authenticateUser(User user) {
+        public ResponseEntity<Object> authenticateUser(@RequestBody User user) {
                 Authentication authentication = authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(
                                                 user.getUsername(),
@@ -60,7 +60,7 @@ public class AuthController {
         }
 
         @PostMapping("/signup")
-        public ResponseEntity<Object> registerUser(RegisterDto registerDto) {
+        public ResponseEntity<Object> registerUser(@RequestBody RegisterDto registerDto) {
 
                 // check to make sure no one have same username
                 if (userRepository.existsByUsername(registerDto.getUsername())) {

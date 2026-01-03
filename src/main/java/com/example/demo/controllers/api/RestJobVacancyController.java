@@ -61,7 +61,7 @@ public class RestJobVacancyController {
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestHeader(name = "token") String token,
-            JobVacancyDto jobVacancyDto) {
+          @RequestBody JobVacancyDto jobVacancyDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
