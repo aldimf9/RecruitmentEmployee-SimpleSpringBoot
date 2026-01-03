@@ -57,7 +57,7 @@ public class RestCertificationController {
 
     @PostMapping
     public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,
-            @RequestBody CertificationDto certificationDto) {
+            CertificationDto certificationDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }

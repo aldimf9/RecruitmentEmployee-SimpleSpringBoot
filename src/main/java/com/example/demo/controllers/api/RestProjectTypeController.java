@@ -54,7 +54,7 @@ public class RestProjectTypeController {
 
     @PostMapping
     public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,
-            @RequestBody ProjectTypeDto projectTypeDto) {
+            ProjectTypeDto projectTypeDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }

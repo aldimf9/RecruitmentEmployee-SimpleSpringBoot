@@ -68,7 +68,7 @@ public class RestRoadmapJobVacancyController {
 
     @PostMapping
     public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,
-            @RequestBody RoadmapJobVacancyDto roadmapJobVacancyDto) {
+            RoadmapJobVacancyDto roadmapJobVacancyDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }

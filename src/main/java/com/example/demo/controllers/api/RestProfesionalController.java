@@ -55,7 +55,7 @@ public class RestProfesionalController {
 
     @PostMapping
     public ResponseEntity<Object> insertObject(@RequestHeader(name = "token") String token,
-            @RequestBody ProfesionalDto profesionalDto) {
+            ProfesionalDto profesionalDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }

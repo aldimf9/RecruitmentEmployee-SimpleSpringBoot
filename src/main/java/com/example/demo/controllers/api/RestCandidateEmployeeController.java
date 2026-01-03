@@ -45,7 +45,7 @@ public class RestCandidateEmployeeController {
 
     @PostMapping("application")
     public ResponseEntity<Object> getApplicationCandidate(@RequestHeader(name = "token") String token,
-            @RequestBody UserDto userDto) {
+            UserDto userDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
@@ -56,7 +56,7 @@ public class RestCandidateEmployeeController {
 
     @PostMapping("name")
     public ResponseEntity<Object> getNameCandidate(@RequestHeader(name = "token") String token,
-            @RequestBody UserDto userDto) {
+            UserDto userDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
@@ -66,7 +66,7 @@ public class RestCandidateEmployeeController {
 
     @PostMapping("profile")
     public ResponseEntity<Object> getProfile(@RequestHeader(name = "token") String token,
-            @RequestBody UserDto userDto) {
+            UserDto userDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
@@ -76,7 +76,7 @@ public class RestCandidateEmployeeController {
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestHeader(name = "token") String token,
-            @RequestBody CandidateEmployeeDto candidateEmployeeDto) {
+            CandidateEmployeeDto candidateEmployeeDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
