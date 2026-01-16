@@ -36,6 +36,10 @@ public class ApprovalService {
         return approvalRepository.getAllData(PhaseRecruitment.valueOf(action));
     }
 
+    public ApprovalDto approvalByRoadmap(Integer roadmap){
+        return approvalRepository.ApprovalByRoadmapIdRepository(roadmap);
+    }
+
     @Transactional
     public boolean save(ApprovalDto approvalDto) {
         try {
@@ -43,7 +47,7 @@ public class ApprovalService {
 
             // Get data roadmap
             RoadmapJobVacancy getRoadmapJobVacancy = roadmapJobVacancyRepository.getById(approvalDto.getRdmpId());
-
+ 
             User getUser = userRepository.getById(approvalDto.getUserId());
 
             // Get data approval

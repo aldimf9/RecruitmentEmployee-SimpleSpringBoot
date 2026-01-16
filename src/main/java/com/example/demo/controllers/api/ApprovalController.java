@@ -17,7 +17,7 @@ import com.example.demo.services.ApprovalService;
 
 @RestController
 @RequestMapping("api/approval")
-public class ApprovalController {
+public class    ApprovalController {
     private ApprovalService approvalService;
 
     @Autowired
@@ -34,13 +34,23 @@ public class ApprovalController {
                 approvalService.getAllDataByAction(action));
     }
 
+    @GetMapping( value = "roadmap")
+    public ResponseEntity<Object> approvalByRoadmapController(@RequestHeader(name = "token") String token,@RequestParam(name = "id") Integer id) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
+        }
+        return ResponseHandler.generateResponse("success", HttpStatus.OK,
+                approvalService.approvalByRoadmap(id));
+    }
+
     @PostMapping
     public ResponseEntity<Object> save(@RequestHeader(name = "token") String token, @RequestParam Integer id,
         @RequestBody ApprovalDto approvalDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, "");
         }
-        approvalDto.setUserId(id);
+        // System.out.println(approvalDto);
+        approvalDto.setId(id);
         return ResponseHandler.generateResponse("modified success", HttpStatus.OK,
                 approvalService.save(approvalDto));
     }

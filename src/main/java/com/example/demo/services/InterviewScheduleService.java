@@ -7,7 +7,9 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.models.InterviewSchedule;
-import com.example.demo.models.dto.InterviewScheduleDto;import com.example.demo.repositories.InterviewScheduleRepository;
+import com.example.demo.models.dto.InterviewScheduleDto;
+import com.example.demo.models.enums.InterviewStatus;
+import com.example.demo.repositories.InterviewScheduleRepository;
 import com.example.demo.repositories.RoadmapJobVacancyRepository;
 import com.example.demo.repositories.UserRepository;
 
@@ -61,7 +63,7 @@ public class InterviewScheduleService {
 
             interviewSchedule.setRoadmap(roadmapJobVacancyRepository.getById(interviewScheduleDto.getRdmp()));
 
-            interviewSchedule.setInterviewer(userRepository.getById(interviewScheduleDto.getCandidate()));
+            interviewSchedule.setInterviewer(userRepository.getById(interviewScheduleDto.getInterviewer()));
 
             interviewSchedule.setInterviewType(interviewSchedule.getInterviewType());
 
@@ -69,7 +71,7 @@ public class InterviewScheduleService {
 
             interviewSchedule.setLocation(interviewScheduleDto.getLocation());
 
-            interviewSchedule.setInterviewStatus(interviewScheduleDto.getInterviewStatus());
+            interviewSchedule.setInterviewStatus(InterviewStatus.SCHEDULED);
 
             interviewScheduleRepository.save(interviewSchedule);
 

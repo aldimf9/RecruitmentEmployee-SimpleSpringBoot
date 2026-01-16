@@ -38,6 +38,15 @@ public class RestUserController {
         return ResponseHandler.generateResponse("success", HttpStatus.OK, userService.getWithId(id));
     }
 
+    @GetMapping("/by-role")
+    public ResponseEntity<Object> getUserByRole(@RequestHeader(name = "token") String token,
+            @RequestParam(name = "id") Integer id) {
+        if (!token.equals("RECRUBATM")) {
+            return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, null);
+        }
+        return ResponseHandler.generateResponse("success", HttpStatus.OK, userService.getDataByRoleId(id));
+    }
+
     @GetMapping("all")
     public ResponseEntity<Object> getAllUser(@RequestHeader(name = "token") String token) {
         if (!token.equals("RECRUBATM")) {
@@ -47,7 +56,7 @@ public class RestUserController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestHeader(name = "token") String token,@RequestBody UserDto userDto) {
+    public ResponseEntity<Object> save(@RequestHeader(name = "token") String token, @RequestBody UserDto userDto) {
         if (!token.equals("RECRUBATM")) {
             return ResponseHandler.generateResponse("failed", HttpStatus.UNAUTHORIZED, null);
         }

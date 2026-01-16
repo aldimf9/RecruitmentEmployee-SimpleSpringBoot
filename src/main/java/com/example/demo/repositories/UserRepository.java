@@ -40,7 +40,17 @@ public interface UserRepository extends JpaRepository<User, Integer> {
                     u.username = ?1
             """)
     public UserDto findByUsername(String username);
-    
+
+    @Query("""
+                SELECT
+                    new com.example.demo.models.dto.UserDto(c.firstName, c.lastName,u.id)
+                FROM
+                    User u JOIN u.role r JOIN u.candidateEmployee c
+                WHERE
+                    r.id = ?1
+            """)
+    public List<UserDto> findByRoleId(Integer id);
+
     boolean existsByUsername(String username);
 
 }

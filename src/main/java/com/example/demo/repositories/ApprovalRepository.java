@@ -23,12 +23,12 @@ public interface ApprovalRepository extends JpaRepository<Approval, Integer> {
     public List<ApprovalDto> getAllData(PhaseRecruitment action);
 
     @Query("""
-            SELECT 
-                a
-            FROM 
-                Approval a 
+            SELECT
+                new com.example.demo.models.dto.ApprovalDto(a.id)
+            FROM
+                Approval a
             WHERE
-                a.roadmapJobVacancy.id = ?1
+                a.roadmapJobVacancy.id = ?1 AND a.status = com.example.demo.models.enums.ApprovalStatus.WAITING_FOR_APPROVAL
             """)
-    public List<Approval> findByRoadmapId(Integer idRoadmap);
+    public ApprovalDto ApprovalByRoadmapIdRepository(Integer idRoadmap);
 }

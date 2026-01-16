@@ -69,6 +69,10 @@ public class UserService implements UserDetailsService {
         return userRepository.getWithId(id);
     }
 
+    public List<UserDto> getDataByRoleId(Integer id){
+        return userRepository.findByRoleId(id);
+    }
+
     public boolean save(UserDto userDto) {
         try {
 

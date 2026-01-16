@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.example.demo.models.enums.InterviewStatus;
 import com.example.demo.models.enums.InterviewType;

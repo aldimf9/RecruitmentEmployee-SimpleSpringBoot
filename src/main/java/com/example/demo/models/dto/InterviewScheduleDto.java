@@ -1,11 +1,11 @@
 package com.example.demo.models.dto;
 
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 
 import com.example.demo.models.enums.InterviewStatus;
 import com.example.demo.models.enums.InterviewType;
 import com.example.demo.models.enums.PhaseRecruitment;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class InterviewScheduleDto {
 
     public InterviewScheduleDto(Integer id,InterviewStatus status){
@@ -55,5 +56,6 @@ public class InterviewScheduleDto {
     private InterviewStatus interviewStatus;
     private PhaseRecruitment phase;
     private LocalDateTime createdAt;
+    private Integer interviewer;
     // private LocalDateTime updatedAt;
 }
